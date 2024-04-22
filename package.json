@@ -1,0 +1,14 @@
+{
+  "name": "bangjs",
+  "version": "0.0.1",
+  "description": "A web based 2D game engine for creating web based games",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jimy Houlbrook",
+  "license": "MIT",
+  "devDependencies": {
+    "pixi.js": "^8.1.0"
+  }
+}
