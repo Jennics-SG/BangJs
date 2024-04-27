@@ -4,11 +4,15 @@
   "description": "A web based 2D game engine for creating web based games",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack"
   },
   "author": "Jimy Houlbrook",
   "license": "MIT",
   "devDependencies": {
-    "pixi.js": "^8.1.0"
+    "pixi.js": "^8.1.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   }
 }
