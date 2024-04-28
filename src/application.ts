@@ -56,6 +56,8 @@ export class App extends Application{
         this._init();
     }
 
+    // METHODS ----------------------------------------------------------------
+    
     // Initialise application
     private async _init(): Promise<void>{
         await super.init({
@@ -111,5 +113,17 @@ export class App extends Application{
         #  |______/  /__/     \\__\\ |__| \\__|  \\______|  \\______/  |_______/    
         #
         V: 0.0.11`)
+    }
+
+    /** Add Child to application stage
+     * 
+     *  Best used with a container that holds other child elements
+     * 
+     * @param child Child to be added
+     */
+    public addChild(child: any): void{
+        console.log(this.stage.children);
+        this.stage.addChild(child)
+        console.log(this.stage.children);
     }
 }

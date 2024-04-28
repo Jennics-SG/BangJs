@@ -5,9 +5,11 @@
  */
 
 import { App } from "./application"
+import { GraphicsExtended } from "./graphics"
 
 const Bang = {
-    Application: App
+    Application: App,
+    Graphics: GraphicsExtended
 }
 
 module.exports = Bang;
