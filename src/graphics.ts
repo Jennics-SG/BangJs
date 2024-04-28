@@ -5,10 +5,9 @@
  *  Date:   28/04/24
  */
 
-import Entity from "./shared/entity";
 import { Graphics, Container } from "pixi.js";
 
-export class GraphicsExtended extends Entity{
+export class GraphicsExtended extends Container{
     private _cursor: Graphics      // PIXI Graphics entity
     
     public container: Container   // Container to hold graphics
@@ -17,21 +16,15 @@ export class GraphicsExtended extends Entity{
      * 
      * @param x X position of entity
      * @param y Y position of entity
-     * @param w Width of container,
-     * @param h Height of container, optional
      */
-    constructor(x: number, y: number, w: number, h?: number){
-        super(x, y, w, h? h : w);
-
+    constructor(x: number, y: number){
+        super();
         // Create cursor
         this._cursor = new Graphics();
 
-        // Create container
-        this.container = new Container();
-        this.container.width = w;
-        this.container.height? h : w;
-        this.container.position.set(x, y);
-        this.container.addChild(this._cursor);
+        this.position.set(x, y);
+
+        this.addChild(this._cursor);
     }
 
     // METHODS ----------------------------------------------------------------

@@ -4,7 +4,7 @@
  *  Date:   27/04/24
  */
 
-import {Application} from 'pixi.js'
+import {Application, TickerCallback} from 'pixi.js'
 
 /** Application Arguments
  * 
@@ -123,5 +123,15 @@ export class App extends Application{
      */
     public addChild(child: any): void{
         this.stage.addChild(child)
+    }
+
+    // Add function too ticker
+    public addToTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction){
+        this.ticker.add(fn, context);
+    }
+
+    // Remove function from ticker
+    public removeFromTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction){
+        this.ticker.remove(fn, context);
     }
 }
