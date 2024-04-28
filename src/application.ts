@@ -33,12 +33,12 @@ export interface ApplicationArgs{
 export class App extends Application{
     private _args: ApplicationArgs;
     
-    constructor(args: ApplicationArgs){
-        super();    
+    constructor(args: ApplicationArgs){  
+        super();
         
         this._args = args;
 
-        this._init()
+        this._init();
     }
 
     // Initialise application

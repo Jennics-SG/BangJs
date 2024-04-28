@@ -1,18 +1,17 @@
 {
   "name": "bangjs",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "description": "A web based 2D game engine for creating web based games",
   "main": "index.js",
   "scripts": {
-    "build": "npx webpack"
+    "build-engine": "node ./builder/esbuild.engine.mjs",
+    "build-tester": "node ./builder/esbuild.tester.mjs",
+    "build": "node ./builder/esbuild.engine.mjs && node ./builder/esbuild.tester.mjs"
   },
   "author": "Jimy Houlbrook",
   "license": "MIT",
   "devDependencies": {
-    "pixi.js": "^8.1.0",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.4.5",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
+    "esbuild": "0.20.2",
+    "pixi.js": "^8.1.0"
   }
 }

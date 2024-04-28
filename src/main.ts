@@ -6,10 +6,19 @@
 
 import { App, ApplicationArgs } from "./application"
 
-export class Application{
+class Application{
     constructor(args: ApplicationArgs){
-        const _app = new App(args);
+        new App(args);
     }
-}
+};
 
-module.exports = Application;
+class myClass{
+    constructor(){
+        console.log('help')
+    }
+};
+
+module.exports = {
+    Application: Application,
+    myClass: myClass
+}
