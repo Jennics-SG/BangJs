@@ -16,7 +16,7 @@ export interface ApplicationArgs{
      */
     height: number,
     width: number,
-    view: HTMLCanvasElement,
+    canvas: HTMLCanvasElement,
     optional?: {
         /** Optional Arguments
          *  hello: console.log engine ver
@@ -46,8 +46,23 @@ export class App extends Application{
         await super.init({
             width: this._args.width,
             height: this._args.height,
+            canvas: this._args.canvas,
             antialias: this._args.optional?.antialias,
-            background: this._args.optional?.background
+            background: this._args.optional?.background,
+            hello: this._args.optional?.hello
         });
+
+        //if(this._args.optional?.hello) this.hello();
     }
+
+    // Loos fucked up init
+    // private hello(){
+    //     console.log(
+    //     "#  .______        ___      .__   __.   _______        __       _______.",
+    //     "#  |   _  \      /   \     |  \ |  |  /  _____|      |  |     /       |",
+    //     "#  |  |_)  |    /  ^  \    |   \|  | |  |  __        |  |    |   (----`",
+    //     "#  |   _  <    /  /_\  \   |  . `  | |  | |_ | .--.  |  |     \   \    ",
+    //     "#  |  |_)  |  /  _____  \  |  |\   | |  |__| | |  `--'  | .----)   |   ",
+    //     "#  |______/  /__/     \__\ |__| \__|  \______|  \______/  |_______/    ")
+    // }
 }

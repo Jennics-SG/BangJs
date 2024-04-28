@@ -6,12 +6,6 @@
 
 import { App, ApplicationArgs } from "./application"
 
-class Application{
-    constructor(args: ApplicationArgs){
-        new App(args);
-    }
-};
-
 class myClass{
     constructor(){
         console.log('help')
@@ -19,6 +13,6 @@ class myClass{
 };
 
 module.exports = {
-    Application: Application,
+    Application: App,
     myClass: myClass
 }
