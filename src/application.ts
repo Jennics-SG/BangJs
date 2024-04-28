@@ -122,8 +122,6 @@ export class App extends Application{
      * @param child Child to be added
      */
     public addChild(child: any): void{
-        console.log(this.stage.children);
         this.stage.addChild(child)
-        console.log(this.stage.children);
     }
 }
