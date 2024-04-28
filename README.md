@@ -8,11 +8,13 @@
 ## Installation
  To initialise the project please run
  ```asgl
- npm init```
+ npm init
+```
 
  After this you will need to build the test environment using
  ```asgl
- npm run build```
+ npm run build
+```
  You can also use `npm run build-engine` and `npm run buld-tester` seperately
 
 ## Running
