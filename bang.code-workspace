@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "src"
+		},
+		{
+			"path": "builder"
+		},
+		{
+			"path": "test"
 		}
 	],
 	"settings": {}

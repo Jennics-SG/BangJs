@@ -13,9 +13,9 @@
 
  After this you will need to build the test environment using
  ```asgl
- npm run build
+ npm run build-engine
 ```
- You can also use `npm run build-engine` and `npm run buld-tester` seperately
+ After this you will find that the bundled engine should be under `dist/bang.js`
 
 ## Running
  Now you can run the project, go into the test folder using `cd test` and run `http-server`

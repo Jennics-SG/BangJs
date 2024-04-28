@@ -4,15 +4,10 @@
  *  Date:   27/04/24
  */
 
-import { App, ApplicationArgs } from "./application"
+import { App } from "./application"
 
-class myClass{
-    constructor(){
-        console.log('help')
-    }
-};
-
-module.exports = {
-    Application: App,
-    myClass: myClass
+const Bang = {
+    Application: App
 }
+
+module.exports = Bang;

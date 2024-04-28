@@ -49,20 +49,21 @@ export class App extends Application{
             canvas: this._args.canvas,
             antialias: this._args.optional?.antialias,
             background: this._args.optional?.background,
-            hello: this._args.optional?.hello
         });
 
-        //if(this._args.optional?.hello) this.hello();
+        if(this._args.optional?.hello) this.hello();
     }
 
-    // Loos fucked up init
-    // private hello(){
-    //     console.log(
-    //     "#  .______        ___      .__   __.   _______        __       _______.",
-    //     "#  |   _  \      /   \     |  \ |  |  /  _____|      |  |     /       |",
-    //     "#  |  |_)  |    /  ^  \    |   \|  | |  |  __        |  |    |   (----`",
-    //     "#  |   _  <    /  /_\  \   |  . `  | |  | |_ | .--.  |  |     \   \    ",
-    //     "#  |  |_)  |  /  _____  \  |  |\   | |  |__| | |  `--'  | .----)   |   ",
-    //     "#  |______/  /__/     \__\ |__| \__|  \______|  \______/  |_______/    ")
-    // }
+    // Print to console when application intialised to check it's running
+    private hello(){
+        console.log(`
+        #  .______        ___      .__   __.   _______        __       _______.
+        #  |   _  \\      /   \\     |  \\ |  |  /  _____|      |  |     /       |
+        #  |  |_)  |    /  ^  \\    |   \\|  | |  |  __        |  |    |   (----\`
+        #  |   _  <    /  /_\\  \\   |  . \`  | |  | |_ | .--.  |  |     \\   \\    
+        #  |  |_)  |  /  _____  \\  |  |\\   | |  |__| | |  \`--'  | .----)   |   
+        #  |______/  /__/     \\__\\ |__| \\__|  \\______|  \\______/  |_______/    
+        #
+        V: 0.0.11`)
+    }
 }
