@@ -20,17 +20,22 @@ export interface ApplicationArgs{
     height: number,
     width: number,
     canvas: HTMLCanvasElement,
-    optional?: {
-        /** Optional Arguments
-         *  hello: console.log engine ver
-         *  background: background colour
-         *  antialias: antialians true / false
-         */
-        hello?: boolean,
-        background?: string,
-        antialias?: boolean, 
-        fullscreen?: FSOptions
-    }
+    optional?: OptionalArgs
+}
+
+/** Optional Application Arguments
+ * 
+ *  hello: console.log engine ver
+ * 
+ *  background: background colour
+ * 
+ *  antialias: antialians true / false
+ */
+interface OptionalArgs{
+    hello?: boolean,
+    background?: string,
+    antialias?: boolean,
+    fullscreen?: FSOptions
 }
 
 /** Fullscreen options

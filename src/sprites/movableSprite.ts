@@ -7,6 +7,7 @@
 import { StaticSprite } from "./staticSpite";
 import {Texture } from "pixi.js"
 
+// Controls n that
 export interface Controls{
     [key : string]: boolean
 }
@@ -36,10 +37,12 @@ export class MovableSprite extends StaticSprite{
         document.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
+    // Fired when key pressed
     private onKeyDown(e: KeyboardEvent): void{
         this._controls[e.code] = true;
     }
 
+    // Fired when key goes up
     private onKeyUp(e: KeyboardEvent): void{
         this._controls[e.code] = false;
     }

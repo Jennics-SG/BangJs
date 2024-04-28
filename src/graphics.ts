@@ -51,7 +51,14 @@ export class GraphicsExtended extends Container{
         return;
     }
 
-    private drawCircle(x: number, y: number, r: number, colour: string){
+    /** Draw Circle
+     * 
+     * @param x         X position relative to container
+     * @param y         Y position relative to container
+     * @param r         R Radius of circle
+     * @param colour    Colour of circle
+     */
+    private drawCircle(x: number, y: number, r: number, colour: string): void{
         this._cursor.circle(x, y, r);
         this._cursor.fill(colour);
     }
