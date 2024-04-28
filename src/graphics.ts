@@ -9,7 +9,6 @@ import Entity from "./shared/entity";
 import { Graphics, Container } from "pixi.js";
 
 export class GraphicsExtended extends Entity{
-    private _colour: String        // Colour to draw
     private _cursor: Graphics      // PIXI Graphics entity
     
     public container: Container   // Container to hold graphics
@@ -39,7 +38,7 @@ export class GraphicsExtended extends Entity{
     
     /** Draw a shape to the container
      * 
-     * @param shape Shape to be drawn
+     * @param shape Shape to be drawn (Currently only supports Circle)
      * @param x     X position relative to container
      * @param y     Y position relative to continaer
      * @param w     Width of drawing, or radius if circle
@@ -50,8 +49,7 @@ export class GraphicsExtended extends Entity{
     public draw(shape: string, x: number, y: number, w: number, colour: string, h?: number): void{
         switch(shape){
             case "circle":
-                this._cursor.circle(x, y, w);
-                this._cursor.fill(colour);
+                this.drawCircle(x, y, w, colour);
                 break;
             default:
                 console.error(`Shape Unkown\nBangJs.Graphics.draw`)
@@ -60,6 +58,12 @@ export class GraphicsExtended extends Entity{
         return;
     }
 
+    private drawCircle(x: number, y: number, r: number, colour: string){
+        this._cursor.circle(x, y, r);
+        this._cursor.fill(colour);
+    }
+
+    // Clear graphics entity
     public clear(): void{
         this._cursor.clear();
     }
