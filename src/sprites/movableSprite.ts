@@ -8,7 +8,7 @@ import { StaticSprite } from "./staticSpite";
 import {Texture } from "pixi.js"
 
 // Controls n that
-export interface Controls{
+interface Controls{
     [key : string]: boolean
 }
 

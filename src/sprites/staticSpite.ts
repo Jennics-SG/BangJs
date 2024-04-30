@@ -41,8 +41,7 @@ export class StaticSprite extends Sprite{
     protected removeFromDelta(fn: CallableFunction){
         const index: number = this._deltaFunctions.indexOf(fn);
         
-        // Not found
-        if(index < -1) return;
+        if(index <= -1) return;     // Not found
 
         this._deltaFunctions.splice(index, 1);
     }

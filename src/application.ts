@@ -131,12 +131,12 @@ export class App extends Application{
     }
 
     // Add function too ticker
-    public addToTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction){
+    public addToTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction): void{
         this.ticker.add(fn, context);
     }
 
     // Remove function from ticker
-    public removeFromTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction){
+    public removeFromTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction): void{
         this.ticker.remove(fn, context);
     }
 }

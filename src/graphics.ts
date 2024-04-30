@@ -8,9 +8,8 @@
 import { Graphics, Container } from "pixi.js";
 
 export class GraphicsExtended extends Container{
-    private _cursor: Graphics      // PIXI Graphics entity
+    private _cursor: Graphics      // PIXI Grsaphics entity
     
-    public container: Container   // Container to hold graphics
 
     /** Graphics Entity that can be used to draw onto a container
      * 
@@ -71,9 +70,7 @@ export class GraphicsExtended extends Container{
     // Resize container
     public resize(w: number, h: number): void{
         this.width = w;
-        this.height = h;
-        this.container.width = w;
-        this.container.height = h;
+        this.height = h;7
     }
 
     // SETTERS ----------------------------------------------------------------
@@ -81,6 +78,5 @@ export class GraphicsExtended extends Container{
     // Set Position
     public setPosition(x: number, y: number): void{
         this.position.set(x, y);
-        this.container.position.set(x, y);
     }   
 }
