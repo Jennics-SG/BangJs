@@ -5,6 +5,7 @@
  */
 
 import {Application, TickerCallback} from 'pixi.js'
+import { FPSDisplay } from './utils';
 
 /** Application Arguments
  * 
@@ -20,7 +21,7 @@ export interface ApplicationArgs{
     height: number,
     width: number,
     canvas: HTMLCanvasElement,
-    optional?: OptionalArgs
+    optional?: OptionalArgs,
 }
 
 /** Optional Application Arguments
@@ -33,6 +34,7 @@ export interface ApplicationArgs{
  */
 interface OptionalArgs{
     hello?: boolean,
+    debug?: boolean,
     background?: string,
     antialias?: boolean,
     fullscreen?: FSOptions
@@ -46,7 +48,6 @@ interface OptionalArgs{
  */
 interface FSOptions{
     enabled: boolean,
-    debug?: boolean
 }
 
 // Class representing Application
@@ -59,6 +60,11 @@ export class App extends Application{
         
         this._args = args;
         this._ver = "0.0.2"
+
+        if(this._args.optional?.debug){
+            const fps = FPSDisplay.instance
+            fps.create(this);
+        }
 
         this._init();
     }
@@ -97,7 +103,7 @@ export class App extends Application{
 
         // Warn about scroll bars if debug
         // if debug warn that css can cause scrollbars to appear
-        if(fsOps.debug){
+        if(this._args.optional?.debug){
             const warning: string = `WARNING: CSS can cause Scrollbars, ensure Body and Canvas have "overflow: hidden;" for fullscreen\nBangJs.application.ts.app.enableFullScreen`
             console.warn(warning)
         };

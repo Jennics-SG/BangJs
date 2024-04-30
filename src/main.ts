@@ -7,8 +7,8 @@
 import { App } from "./application"
 import { GraphicsExtended } from "./graphics"
 import * as Sprites from "./sprites/index";
-import { PhysicsLayer } from "./physics";
-
+import {  Layer } from "./physics";
+import { Engine } from "./Physics/engine";
 import { Assets } from "pixi.js";
 
 const Bang = {
@@ -17,7 +17,8 @@ const Bang = {
     Assets: Assets,
     Sprites: Sprites,
     Physics: {
-        Layer: PhysicsLayer
+        Engine: Engine,
+        Layer: Layer
     }
 }
 
