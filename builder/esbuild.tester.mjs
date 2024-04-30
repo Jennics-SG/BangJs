@@ -10,5 +10,6 @@ import * as esbuild from 'esbuild';
 await esbuild.build({
   entryPoints: ['./dist/main.js'],
   bundle: true,
+  platform: "node",
   outfile: './test/main.js'
 });

@@ -52,11 +52,13 @@ interface FSOptions{
 // Class representing Application
 export class App extends Application{
     private _args: ApplicationArgs;
-    
+    private readonly _ver: string
+
     constructor(args: ApplicationArgs){  
         super();
         
         this._args = args;
+        this._ver = "0.0.2"
 
         this._init();
     }
@@ -117,7 +119,7 @@ export class App extends Application{
         #  |  |_)  |  /  _____  \\  |  |\\   | |  |__| | |  \`--'  | .----)   |   
         #  |______/  /__/     \\__\\ |__| \\__|  \\______|  \\______/  |_______/    
         #
-        V: 0.0.11`)
+        V: ${this._ver}`);
     }
 
     /** Add Child to application stage
