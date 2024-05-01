@@ -6,20 +6,16 @@
 
 import { App } from "./application"
 import { GraphicsExtended } from "./graphics"
-import * as Sprites from "./sprites/index";
-import {  Layer } from "./physics";
-import { Engine } from "./Physics/engine";
+import * as Sprites from "./Sprites/index";
+import * as Physics from "./Physics/index";
 import { Assets } from "pixi.js";
 
 const Bang = {
     Application: App, 
     Graphics: GraphicsExtended,
-    Assets: Assets,
-    Sprites: Sprites,
-    Physics: {
-        Engine: Engine,
-        Layer: Layer
-    }
+    Assets,
+    Sprites,
+    Physics
 }
 
 module.exports = Bang;
