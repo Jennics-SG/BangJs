@@ -71,3 +71,33 @@ export class FPSDisplay {
         document.body.removeChild(this.domText);
     }
 };
+
+import { getB2D } from './Physics/engine';
+
+/** Class representing Vector
+ * 
+ *  This just exists as its a pain to convert PIXI Points to
+ *  b2Vec2's, so by creating this class the b2Vec can be
+ *  returned by a method
+ * 
+ */
+export class Vector extends PIXI.Point{
+    private _b2d
+
+    constructor(x: number = 0, y: number = 0){
+        super(x, y);
+        this.init();
+    }
+
+    async init(){
+        this._b2d = await getB2D()
+    }
+
+    getB2Vec(){
+        if(!this._b2d){
+            console.error(`ERR: Box2D does not exist within Vector. Please run 'await Vector.init()'\nUtils.Vector.getB2Vec`);
+            return;
+        }
+        return new this._b2d.b2Vec2(this.x, this.y)
+    }
+}

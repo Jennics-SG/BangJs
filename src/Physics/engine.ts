@@ -8,7 +8,7 @@
 import B2D from '../B2D/Box2D_v2.3.1_min';
 
 /** Get Box2D instance */
-async function getB2D(){
+export async function getB2D(){
     return new Promise((res, rej) => {
         B2D().then(box => {
             res(box);

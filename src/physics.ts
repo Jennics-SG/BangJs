@@ -6,13 +6,11 @@
 
 
 import { Engine } from "./Physics/engine";
+import { Vector } from "./utils";
 import { Sprite } from "pixi.js";
 
 export interface PhysOps{
-    gravity: {
-        x: number,      // Change to x in m/s/s
-        y: number       // Change to y in m/s/s
-    },
+    gravity: Vector,    // Gravity Vector
     simulation:{
         maxTime: number         // Max time to be calculated during world step
         velIterations: number   // Velocity Iterations per step
@@ -45,10 +43,7 @@ export class Layer{
         
         // Default options
         else this._ops = {
-            gravity: {
-                x: 0,
-                y: 0
-            },
+            gravity: new Vector(),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 1,
