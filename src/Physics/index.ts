@@ -10,6 +10,6 @@ import { Layer } from "./layer";
 const Physics = {
     Engine,
     Layer
-}    
+}
 
 module.exports = Physics;

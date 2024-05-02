@@ -18,10 +18,11 @@ export class Layer{
 
     private readonly _engine    // Instance of Box2D to access functions
 
-    private _entities: Array<typeof Sprite>
+    private _entities: Array<any>   // Need to find some way that i can set a type that works for
+                                    // Graphics and Sprites, maybe PIXI Container?
     private _ops: PhysOps
 
-    private _world;     // Box2D world but cant set type
+    public world;     // Box2D world but cant set type
 
     constructor(engine: Engine, options?: PhysOps){
         if(!engine.b2d){
@@ -45,7 +46,7 @@ export class Layer{
         };
 
         // Create Box2D World
-        this._world = new this._engine.b2World(this._ops.gravity);
+        this.world = new this._engine.b2World(this._ops.gravity);
 
     }
 
@@ -60,7 +61,7 @@ export class Layer{
         const ops = this._ops.simulation
 
         const clamped = Math.min(ms, ops.maxTime);
-        this._world.Step(clamped/1000, ops.velIterations, ops.posIterations);
+        this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
     }
 
     // Find entity
@@ -68,5 +69,9 @@ export class Layer{
     findEntity(e): Vector{
         const {x, y} = e.GetPosition();
         return new Vector(x, y);
+    }
+
+    addEntity(e){
+        this._entities.push(e);
     }
 }

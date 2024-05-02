@@ -9,9 +9,9 @@ import { DragableSprite } from "./dragableSprite";
 import { MovableSprite } from "./movableSprite";
 
 const Sprites = {
-    StaticSprite: StaticSprite,
-    DragableSprite: DragableSprite,
-    MovableSprite: MovableSprite
+    StaticSprite,
+    DragableSprite,
+    MovableSprite
 }
 
 module.exports = Sprites;

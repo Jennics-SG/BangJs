@@ -5,6 +5,8 @@
  */
 
 import {Application, TickerCallback} from 'pixi.js'
+import { Layer } from './Physics/layer';
+import { Engine } from './Physics/engine'
 import { FPSDisplay } from './utils';
 
 /** Application Arguments
@@ -37,6 +39,7 @@ interface OptionalArgs{
     debug?: boolean,
     background?: string,
     antialias?: boolean,
+    physics?: boolean,
     fullscreen?: FSOptions
 }
 
@@ -53,20 +56,31 @@ interface FSOptions{
 // Class representing Application
 export class App extends Application{
     private _args: ApplicationArgs;
-    private readonly _ver: string
+
+    // Physics stuff
+    // Not set unless user wants physics
+    private _physicsLayers?: Array<Layer>
+
+    // Put this here incase people want to
+    // store the engine
+    public engine?: Engine;
+
+    private readonly _ver: string = "0.0.2";
 
     constructor(args: ApplicationArgs){  
         super();
         
         this._args = args;
-        this._ver = "0.0.2"
 
         if(this._args.optional?.debug){
             const fps = FPSDisplay.instance
             fps.create(this);
         }
 
-        this._init();
+        if(this._args.optional?.physics)
+            this._physicsLayers = new Array();
+
+        // this._init();
     }
 
     // METHODS ----------------------------------------------------------------
@@ -90,6 +104,8 @@ export class App extends Application{
         // to deal with, plus have the debug message
         if(this._args.optional?.fullscreen?.enabled)
             this.enableFullScreen(this._args.optional?.fullscreen);
+
+        this.ticker.add(this.delta.bind(this));
     }
 
     /** Enable Full Screen with auto resizing
@@ -146,5 +162,27 @@ export class App extends Application{
     // Remove function from ticker
     public removeFromTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction){
         this.ticker.remove(fn, context);
+    }
+
+    public getWidthHeight(): Object{
+        const w = this._args.width;
+        const h = this._args.height;
+        return {w, h}
+    }
+
+    public addPhysicsLayer(layer: Layer){
+        // add a debug message here
+        if(!this._physicsLayers) return;
+        this._physicsLayers.push(layer);
+    }
+
+    private delta(){
+        this.redrawEntities();
+    }
+
+    private redrawEntities(){
+        if(!this._args.optional?.physics || !this.engine) return;
+        // Redraw entities according to physics x,y if physics enabled
+        //console.log(this._physicsLayers);
     }
 }
