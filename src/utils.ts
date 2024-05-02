@@ -86,6 +86,7 @@ export class Vector extends PIXI.Point{
 
     constructor(x: number = 0, y: number = 0){
         super(x, y);
+        console.log(x, y);
         this.init();
     }
 
@@ -98,6 +99,7 @@ export class Vector extends PIXI.Point{
             console.error(`ERR: Box2D does not exist within Vector. Please run 'await Vector.init()'\nUtils.Vector.getB2Vec`);
             return;
         }
+        console.log(this.x, this.y);
         return new this._b2d.b2Vec2(this.x, this.y)
     }
 }

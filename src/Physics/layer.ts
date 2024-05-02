@@ -26,18 +26,17 @@ export class Layer{
 
     constructor(engine: Engine, options?: PhysOps){
         if(!engine.b2d){
-            console.error(`Physics engine has not been initialised\nPlease run 'await Engine.init()'\nphysics init`)
+            console.error(`Physics engine has not been initialised\nPlease run 'await Engine.init()'\nBang.Physics.layer.ts`)
             return;
         }
 
         this._engine = engine.b2d;
 
         // Set options
-        if(options) this._ops = options;
-        
-        // Default options
+        if(options) this._ops = options;        
+
         else this._ops = {
-            gravity: new Vector(),
+            gravity: new Vector(0, 1),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 1,
@@ -45,9 +44,17 @@ export class Layer{
             }
         };
 
-        // Create Box2D World
-        this.world = new this._engine.b2World(this._ops.gravity);
+        // Array for entities
+        this._entities = new Array();
 
+        this.init();
+    }
+
+    async init(){
+        await this._ops.gravity.init();
+
+        // Create Box2D World
+        this.world = new this._engine.b2World(this._ops.gravity.getB2Vec());
     }
 
     /** Move the physics world forward a step
@@ -66,9 +73,11 @@ export class Layer{
 
     // Find entity
     // Takes b2d body but yk, types r weird init
-    findEntity(e): Vector{
+    async findEntity(e): Promise<Vector>{
         const {x, y} = e.GetPosition();
-        return new Vector(x, y);
+        const v = new Vector(x, y);
+        await v.init();
+        return v;
     }
 
     addEntity(e){

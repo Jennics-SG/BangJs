@@ -80,7 +80,7 @@ export class App extends Application{
         if(this._args.optional?.physics)
             this._physicsLayers = new Array();
 
-        // this._init();
+        //this._init();
     }
 
     // METHODS ----------------------------------------------------------------
@@ -173,6 +173,11 @@ export class App extends Application{
     public addPhysicsLayer(layer: Layer){
         // add a debug message here
         if(!this._physicsLayers) return;
+
+        this.ticker.add(() => {
+            layer.step(this.ticker.deltaMS)
+        }, this);
+
         this._physicsLayers.push(layer);
     }
 

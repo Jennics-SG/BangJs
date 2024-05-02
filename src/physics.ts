@@ -12,7 +12,7 @@ export class Entity{
 
     private _layer: Layer;
 
-    private _body;
+    public body;
     
     constructor(engine: Engine, layer: Layer, x: number, y: number, w: number, h: number){
         this._engine = engine;
@@ -27,7 +27,7 @@ export class Entity{
         // 2: Create Body 
         // ofc this is done by world and not the engine
         // like why would it be done by the engine 
-        this._body = this._layer.world.CreateBody(bd);
+        this.body = this._layer.world.CreateBody(bd);
 
         // 3: Create Shape
 
@@ -48,9 +48,13 @@ export class Entity{
         fd.restitution = 0.5;
 
         // Create fixture
-        this._body.CreateFixture(fd);
+        this.body.CreateFixture(fd);
 
         layer.addEntity.bind(layer)(this);
+    }
+
+    public getPos(){
+        return new this.body.GetPosition();
     }
 }
 

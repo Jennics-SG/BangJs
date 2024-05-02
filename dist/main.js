@@ -17,6 +17,8 @@ class PhysicsTest{
     }
 
     async init(){
+        await this.app._init();
+
         // load missing
         Bang.Assets.add({alias: 'missing', src: './assets/missing_texture.png'});
         await Bang.Assets.load('missing');
@@ -31,21 +33,29 @@ class PhysicsTest{
         const layer = new Bang.Physics.Layer(engine);
         this.app.addPhysicsLayer(layer);
 
-        await this.app._init();
-
         document.addEventListener('click', this.placeBox.bind(this));
     }
 
-    placeBox(e){
+    async placeBox(e){
         const x = e.clientX;
         const y = e.clientY;
 
         // Is in bounds
         const appBounds = this.app.getWidthHeight();
         if(!x <= appBounds.x && !y <= appBounds.y) return
-        
+
         const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 100, 100);
         const entity = new Bang.Entity(this.app.engine, this.app._physicsLayers[0], x, y, 100, 100);
+        this.app.addToTicker(async () => {
+            //console.log(await this.app._physicsLayers[0].findEntity(entity.body));
+    
+            const layer = this.app._physicsLayers[0];
+            const pos = await layer.findEntity(entity.body);
+            await pos.init();
+            const pvec = pos.getB2Vec2();
+            console.log(pvec);
+
+        });
         this.app.addChild(box);
     }
 }
