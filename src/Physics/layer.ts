@@ -1,4 +1,5 @@
 import { Engine } from "./engine";
+import { Entity } from "./entity";
 import { Sprite, Point } from "pixi.js";
 
 export interface PhysOps{
@@ -31,10 +32,9 @@ export class Layer{
 
         this._engine = engine;
 
-        // // Set options
-        // if(options) this._ops = options;        
-
-        /*else*/ this._ops = {
+        // Set options
+        if(options) this._ops = options;        
+        else this._ops = {
             gravity: new engine.b2d.b2Vec2(0, 10),
             simulation: {
                 maxTime: 1/60*1000,
@@ -48,13 +48,31 @@ export class Layer{
         this.world = new this._engine.b2d.b2World(this._ops.gravity)
     }
 
+    /** Find entity according to Pixel Position
+     * 
+     * @param e     Entity
+     * @returns     
+     */
+    findEntity(e: Entity): Point{
+        const trans = e.getPos();
+        return this._engine.coOrdWorldToPixel(trans.x, trans.y);
+    }
+
+    /** Add an Entity to the Layer
+     * 
+     * @param e Entity
+     */
+    addEntity(e: Entity): void{
+        this.entities.push(e);
+    }
+
     /** Move the physics world forward a step
      *  
      *  Should be added to Application ticker using
      *  ticker ms as the argument.
      * 
      * @param ms 
-     */
+    */
     step(ms: number){
         const ops = this._ops.simulation
         const clamped = Math.min(ms, ops.maxTime);
@@ -64,29 +82,28 @@ export class Layer{
         this.redrawEntities();
     }
 
-    // Find entity
-    // Takes b2d body but yk, types r weird init
-    findEntity(e): Point{
-        const trans = e.getPos();
-        return this._engine.coOrdWorldToPixel(trans.x, trans.y);
-    }
-
-    addEntity(e){
-        this.entities.push(e);
-    }
-
-    redrawEntities(){
+    /** Redraw entities if their Physics position if
+     *  it different from render position
+     * 
+     *  This is the cause for the weird 'glitchy' look
+     *  that is caused by rendering. It can be fixed by
+     *  rounding or flooring the position, but this
+     *  makes it look choppy.
+     * 
+     */
+    redrawEntities(): void{
         // Redraw entity if it has sprite
         // And its sprites location is diff
-        for(const entity of this.entities){         
-            const entityPos = this.findEntity(entity);
+        for(const entity of this.entities){      
+            let entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
             if(
                 spritePos.x == entityPos.x &&
                 spritePos.y == entityPos.y 
             ) continue;
-
+            
             entity.sprite.position.set(entityPos.x, entityPos.y);
+            entity.sprite.angle = -entity.body.GetAngle();
         }
     }
 }
