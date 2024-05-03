@@ -104,8 +104,6 @@ export class App extends Application{
         // to deal with, plus have the debug message
         if(this._args.optional?.fullscreen?.enabled)
             this.enableFullScreen(this._args.optional?.fullscreen);
-
-        this.ticker.add(this.delta.bind(this));
     }
 
     /** Enable Full Screen with auto resizing
@@ -179,15 +177,5 @@ export class App extends Application{
         }, this);
 
         this._physicsLayers.push(layer);
-    }
-
-    private delta(){
-        this.redrawEntities();
-    }
-
-    private redrawEntities(){
-        if(!this._args.optional?.physics || !this.engine) return;
-        // Redraw entities according to physics x,y if physics enabled
-        //console.log(this._physicsLayers);
     }
 }

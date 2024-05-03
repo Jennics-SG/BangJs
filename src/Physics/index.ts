@@ -6,10 +6,12 @@
 
 import { Engine } from "./engine";
 import { Layer } from "./layer";
+import { Entity } from "./entity";
 
 const Physics = {
     Engine,
-    Layer
+    Layer,
+    Entity
 }
 
 module.exports = Physics;

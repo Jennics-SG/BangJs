@@ -9,7 +9,6 @@ import { GraphicsExtended } from "./graphics"
 import * as Sprites from "./Sprites/index";
 import * as Physics from "./Physics/index";
 import { Assets } from "pixi.js";
-import { Entity } from "./physics";
 
 const Bang = {
     Application: App, 
@@ -17,7 +16,6 @@ const Bang = {
     Assets,
     Sprites,
     Physics,
-    Entity
 }
 
 module.exports = Bang;
