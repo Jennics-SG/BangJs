@@ -6,7 +6,7 @@
  */
 
 import B2D from '../B2D/Box2D_v2.3.1_min';
-import { Vector } from '../utils';
+import { Point } from 'pixi.js';
 
 /** Get Box2D instance */
 export async function getB2D(){
@@ -39,13 +39,14 @@ export class Engine{
 
     private _scale: number;  // Scale of pixel to meter
 
-    constructor(w: number, h: number, scale: number = 200){
+    constructor(w: number, h: number, scale: number = 1){
         this._w = w;
         this._h = h;
+        console.log(scale);
         this._scale = scale;
         
-        this._transX = w / 2 + Number.EPSILON;
-        this._transY = h / 2 + Number.EPSILON;
+        this._transX = w / 2;
+        this._transY = h / 2;
         this._yFlip = Engine.yFlipIndicator;
     }
 
@@ -60,15 +61,13 @@ export class Engine{
      * @param y     Pixel Y
      * @returns     Vector
      */
-    public coOrdPixelToWorld(x: number, y: number): Vector{
+    public coOrdPixelToWorld(x: number, y: number){
         let worldX: number = 
-            this.mapNumRange(x, this._transX, this._transX+this._scale, 0, 1);
-        let worldY: number = y;
+            this.mapNumRange(x, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
+        let worldY: number = 
+            this.mapNumRange(y, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
 
-        if(this._yFlip === Engine.yFlipIndicator)
-            worldY = this.mapNumRange(y, this._h, 0, 0, this._h);
-            
-        const v = new Vector(worldX, worldY);
+        const v = new this.b2d.b2Vec2(worldX, worldY);
         return v;
     }
 
@@ -78,12 +77,10 @@ export class Engine{
      * @param y     World Y
      * @returns     Vector
      */
-    public coOrdWorldToPixel(x: number, y: number): Vector{
-        let pixelX = this.mapNumRange(x, 0, 1, this._transX, this._transX+this._scale);
-        let pixelY = this.mapNumRange(y, 0, 1, this._transY, this._transY+this._scale);
-        if(this._yFlip === Engine.yFlipIndicator)
-            pixelY = this.mapNumRange(y,0,this._h,this._h,0)
-        return new Vector(pixelX, pixelY);
+    public coOrdWorldToPixel(x: number, y: number): Point{
+        let pixelX = this.mapNumRange(x, 0-this._transX*this._scale, 0+this._transX*this._scale, 0, this._w);
+        let pixelY = this.mapNumRange(y, 0-this._transY*this._scale, 0+this._transY*this._scale, 0, this._w);
+        return new Point(pixelX, pixelY);
     }
 
     /** Convert Pixel measurement to World
@@ -114,6 +111,6 @@ export class Engine{
      * @returns 
      */
     private mapNumRange(n: number, inMin: number, inMax: number, outMin: number, outMax: number): number{
-        return (((n - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin);
+        return outMin + (outMax - outMin)*((n - inMin)/(inMax - inMin))
     }
 }

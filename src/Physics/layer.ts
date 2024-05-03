@@ -1,9 +1,8 @@
 import { Engine } from "./engine";
-import { Vector } from "../utils";
-import { Sprite } from "pixi.js";
+import { Sprite, Point } from "pixi.js";
 
 export interface PhysOps{
-    gravity: Vector,    // Gravity Vector
+    gravity: Point,    // Gravity Vector
     simulation:{
         maxTime: number         // Max time to be calculated during world step
         velIterations: number   // Velocity Iterations per step
@@ -26,18 +25,17 @@ export class Layer{
 
     constructor(engine: Engine, options?: PhysOps){
         if(!engine.b2d){
-            console.error(`Physics engine has not been initialised\nPlease run 'await Engine.init()'\nphysics init`)
+            console.error(`Physics engine has not been initialised\nPlease run 'await Engine.init()'\nBang.Physics.layer.ts`)
             return;
         }
 
-        this._engine = engine.b2d;
+        this._engine = engine;
 
-        // Set options
-        if(options) this._ops = options;
-        
-        // Default options
-        else this._ops = {
-            gravity: new Vector(),
+        // // Set options
+        // if(options) this._ops = options;        
+
+        /*else*/ this._ops = {
+            gravity: new engine.b2d.b2Vec2(0, 10),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 1,
@@ -45,9 +43,9 @@ export class Layer{
             }
         };
 
-        // Create Box2D World
-        this.world = new this._engine.b2World(this._ops.gravity);
-
+        // Array for entities
+        this._entities = new Array();
+        this.world = new this._engine.b2d.b2World(this._ops.gravity)
     }
 
     /** Move the physics world forward a step
@@ -59,16 +57,16 @@ export class Layer{
      */
     step(ms: number){
         const ops = this._ops.simulation
-
         const clamped = Math.min(ms, ops.maxTime);
         this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
+        this.world.ClearForces();
     }
 
     // Find entity
     // Takes b2d body but yk, types r weird init
-    findEntity(e): Vector{
-        const {x, y} = e.GetPosition();
-        return new Vector(x, y);
+    async findEntity(e): Promise<Point>{
+        const trans = e.getPos();
+        return this._engine.coOrdWorldToPixel(trans.x, trans.y);
     }
 
     addEntity(e){
