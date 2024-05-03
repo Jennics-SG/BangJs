@@ -54,15 +54,11 @@ class PhysicsTest{
 
             const layer = this.app._physicsLayers[0];
             const pos = await layer.findEntity(entity);
-            //console.log(pos.x, pos.y);
-            await pos.init();
-            const pvec = pos.getB2Vec();
-            //console.log(pvec.x, pvec.y);
+            console.log(pos.x, pos.y);
         }
 
-        func();
+        this.app.addToTicker(func, this);
 
-        setTimeout(() => this.app.removeFromTicker(func, this), 500);
         //this.app.addChild(box);
     }
 }

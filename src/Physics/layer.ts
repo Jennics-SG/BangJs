@@ -1,9 +1,8 @@
 import { Engine } from "./engine";
-import { Vector } from "../utils";
-import { Sprite } from "pixi.js";
+import { Sprite, Point } from "pixi.js";
 
 export interface PhysOps{
-    gravity: Vector,    // Gravity Vector
+    gravity: Point,    // Gravity Vector
     simulation:{
         maxTime: number         // Max time to be calculated during world step
         velIterations: number   // Velocity Iterations per step
@@ -36,7 +35,7 @@ export class Layer{
         // if(options) this._ops = options;        
 
         /*else*/ this._ops = {
-            gravity: new Vector(0, 0.1),
+            gravity: new engine.b2d.b2Vec2(0, 10),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 1,
@@ -46,15 +45,7 @@ export class Layer{
 
         // Array for entities
         this._entities = new Array();
-
-        this.init();
-    }
-
-    async init(){
-        await this._ops.gravity.init();
-
-        // Create Box2D World
-        this.world = new this._engine.b2d.b2World(this._ops.gravity.getB2Vec());
+        this.world = new this._engine.b2d.b2World(this._ops.gravity)
     }
 
     /** Move the physics world forward a step
@@ -73,9 +64,8 @@ export class Layer{
 
     // Find entity
     // Takes b2d body but yk, types r weird init
-    async findEntity(e): Promise<Vector>{
+    async findEntity(e): Promise<Point>{
         const trans = e.getPos();
-        console.log(trans.x, trans.y);
         return this._engine.coOrdWorldToPixel(trans.x, trans.y);
     }
 

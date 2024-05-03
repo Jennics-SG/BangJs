@@ -21,12 +21,11 @@ export class Entity{
         // 1: Craete a Body Def
         const bd = new this._engine.b2d.b2BodyDef();
         // This needs to be up to the user
-        bd.set_type(this._engine.b2d.b2_dynamicBody)
+        bd.set_type(this._engine.b2d.b2_dynamicBody);
 
-        const worldXY = this._engine.coOrdPixelToWorld(x, y)
+        const worldXY = this._engine.coOrdPixelToWorld(x, y);
 
-        console.log(worldXY)
-        bd.set_position(worldXY)
+        bd.set_position(worldXY);
 
         // 2: Create Body 
         // ofc this is done by world and not the engine
@@ -40,7 +39,7 @@ export class Entity{
         // Need to half w/h bcs origin is in the center
         const len = this._engine.scalarPixelsToWorld(w/2);
         const height = this._engine.scalarPixelsToWorld(h/2);
-        const shape = new this._engine.b2d.b2PolygonShape
+        const shape = new this._engine.b2d.b2PolygonShape();
         // This needs to be set by the user
         shape.SetAsBox(len, height);
 
