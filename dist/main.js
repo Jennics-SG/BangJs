@@ -44,19 +44,26 @@ class PhysicsTest{
         const appBounds = this.app.getWidthHeight();
         if(!x <= appBounds.x && !y <= appBounds.y) return
 
-        const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 100, 100);
+        //const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 100, 100);
+        
+        //console.log(x, y);
         const entity = new Bang.Entity(this.app.engine, this.app._physicsLayers[0], x, y, 100, 100);
-        this.app.addToTicker(async () => {
-            //console.log(await this.app._physicsLayers[0].findEntity(entity.body));
-    
-            const layer = this.app._physicsLayers[0];
-            const pos = await layer.findEntity(entity.body);
-            await pos.init();
-            const pvec = pos.getB2Vec2();
-            console.log(pvec);
 
-        });
-        this.app.addChild(box);
+        const func = async () => {
+            //console.log(await this.app._physicsLayers[0].findEntity(entity.body));
+
+            const layer = this.app._physicsLayers[0];
+            const pos = await layer.findEntity(entity);
+            //console.log(pos.x, pos.y);
+            await pos.init();
+            const pvec = pos.getB2Vec();
+            //console.log(pvec.x, pvec.y);
+        }
+
+        func();
+
+        setTimeout(() => this.app.removeFromTicker(func, this), 500);
+        //this.app.addChild(box);
     }
 }
 

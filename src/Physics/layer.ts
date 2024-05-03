@@ -30,13 +30,13 @@ export class Layer{
             return;
         }
 
-        this._engine = engine.b2d;
+        this._engine = engine;
 
-        // Set options
-        if(options) this._ops = options;        
+        // // Set options
+        // if(options) this._ops = options;        
 
-        else this._ops = {
-            gravity: new Vector(0, 1),
+        /*else*/ this._ops = {
+            gravity: new Vector(0, 0.1),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 1,
@@ -54,7 +54,7 @@ export class Layer{
         await this._ops.gravity.init();
 
         // Create Box2D World
-        this.world = new this._engine.b2World(this._ops.gravity.getB2Vec());
+        this.world = new this._engine.b2d.b2World(this._ops.gravity.getB2Vec());
     }
 
     /** Move the physics world forward a step
@@ -66,18 +66,17 @@ export class Layer{
      */
     step(ms: number){
         const ops = this._ops.simulation
-
         const clamped = Math.min(ms, ops.maxTime);
         this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
+        this.world.ClearForces();
     }
 
     // Find entity
     // Takes b2d body but yk, types r weird init
     async findEntity(e): Promise<Vector>{
-        const {x, y} = e.GetPosition();
-        const v = new Vector(x, y);
-        await v.init();
-        return v;
+        const trans = e.getPos();
+        console.log(trans.x, trans.y);
+        return this._engine.coOrdWorldToPixel(trans.x, trans.y);
     }
 
     addEntity(e){

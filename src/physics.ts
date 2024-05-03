@@ -22,13 +22,19 @@ export class Entity{
         const bd = new this._engine.b2d.b2BodyDef();
         // This needs to be up to the user
         bd.set_type(this._engine.b2d.b2_dynamicBody)
-        bd.set_position(this._engine.coOrdPixelToWorld(x, y))
+
+        const worldXY = this._engine.coOrdPixelToWorld(x, y)
+
+        console.log(worldXY)
+        bd.set_position(worldXY)
 
         // 2: Create Body 
         // ofc this is done by world and not the engine
         // like why would it be done by the engine 
         this.body = this._layer.world.CreateBody(bd);
-
+        this.body.SetAwake(true);
+        this.body.SetActive(true);
+        
         // 3: Create Shape
 
         // Need to half w/h bcs origin is in the center
@@ -50,11 +56,11 @@ export class Entity{
         // Create fixture
         this.body.CreateFixture(fd);
 
-        layer.addEntity.bind(layer)(this);
+        layer.addEntity(this);
     }
 
     public getPos(){
-        return new this.body.GetPosition();
+        return this.body.GetPosition();
     }
 }
 

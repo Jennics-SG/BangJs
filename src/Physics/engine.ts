@@ -39,9 +39,10 @@ export class Engine{
 
     private _scale: number;  // Scale of pixel to meter
 
-    constructor(w: number, h: number, scale: number = 200){
+    constructor(w: number, h: number, scale: number = 1){
         this._w = w;
         this._h = h;
+        console.log(scale);
         this._scale = scale;
         
         this._transX = w / 2 + Number.EPSILON;
@@ -68,7 +69,7 @@ export class Engine{
         if(this._yFlip === Engine.yFlipIndicator)
             worldY = this.mapNumRange(y, this._h, 0, 0, this._h);
             
-        const v = new Vector(worldX, worldY);
+        const v = new this.b2d.b2Vec2(worldX, worldY);
         return v;
     }
 
@@ -114,6 +115,6 @@ export class Engine{
      * @returns 
      */
     private mapNumRange(n: number, inMin: number, inMax: number, outMin: number, outMax: number): number{
-        return (((n - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin);
+        return outMin + (outMax - outMin)*((n - inMin)/(inMax - inMin))
     }
 }
