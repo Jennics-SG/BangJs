@@ -55,8 +55,6 @@ export class Entity{
         }
         bd.gravityScale = 1;
 
-        x = x-h
-
         bd.set_position(this._engine.coOrdPixelToWorld(x, y));
 
         // 2: Create Body 
@@ -73,9 +71,7 @@ export class Entity{
         const shapeW = this._engine.scalarPixelsToWorld(w);
         const shapeH = this._engine.scalarPixelsToWorld(h);
 
-        console.log(w, h);
-
-        this.shape.SetAsBox(shapeW, shapeH);  // Halfed bcs origin in center
+        this.shape.SetAsBox(shapeW/2, shapeH/2);  // Halfed bcs origin in center
 
         // 4: Create fixture def 
         const fd = new this._engine.b2d.b2FixtureDef();

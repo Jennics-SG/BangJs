@@ -64,9 +64,9 @@ export class Engine{
      */
     public coOrdPixelToWorld(x: number, y: number){
         let worldX: number = 
-            this.mapNumRange(x, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
+            this.mapNumRange(x + this._w / 2, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
         let worldY: number = 
-            this.mapNumRange(y, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
+            this.mapNumRange(y + this._h / 2, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
 
         const v = new this.b2d.b2Vec2(worldX, worldY);
         return v;
@@ -79,8 +79,18 @@ export class Engine{
      * @returns     Vector
      */
     public coOrdWorldToPixel(x: number, y: number): Point{
-        let pixelX = this.mapNumRange(x, 0-this._transX*this._scale, 0+this._transX*this._scale, 0, this._w);
-        let pixelY = this.mapNumRange(y, 0-this._transY*this._scale, 0+this._transY*this._scale, 0, this._w);
+        let pixelX = this.mapNumRange(
+            x - (this.scalarPixelsToWorld(this._w) / 2),
+            0-this._transX*this._scale,
+            0+this._transX*this._scale,
+            0, this._w
+        );
+        let pixelY = this.mapNumRange(
+            y - (this.scalarPixelsToWorld(this._h) / 2),
+            0-this._transY*this._scale,
+            0+this._transY*this._scale,
+            0, this._w
+        );
         return new Point(pixelX, pixelY);
     }
 

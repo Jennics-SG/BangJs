@@ -36,7 +36,7 @@ class PhysicsTest{
         this.app.addPhysicsLayer(layer);
 
         const groundOps =  {
-            bodyType: "Dynamic",
+            bodyType: "Static",
             shape: "box",
             gravScale: 0,
             density: 0,
