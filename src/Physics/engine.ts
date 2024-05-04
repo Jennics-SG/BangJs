@@ -42,7 +42,6 @@ export class Engine{
     constructor(w: number, h: number, scale: number = 5){
         this._w = w;
         this._h = h;
-        console.log(scale);
         this._scale = scale;
         
         this._transX = w / 2;
@@ -62,9 +61,9 @@ export class Engine{
      */
     public coOrdPixelToWorld(x: number, y: number){
         let worldX: number = 
-            this.mapNumRange(x, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
+            this.mapNumRange(x, 0, this._w, 0-(this._transX*this._scale), 0+(this._transX*this._scale));
         let worldY: number = 
-            this.mapNumRange(y, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
+            this.mapNumRange(y, 0, this._h, 0-(this._transY*this._scale), 0+(this._transY*this._scale));
 
         const v = new this.b2d.b2Vec2(worldX, worldY);
         return v;

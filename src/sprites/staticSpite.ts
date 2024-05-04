@@ -23,6 +23,7 @@ export class StaticSprite extends Sprite{
         //console.log(x, y);
         if(w) this.width = w;
         if(h) this.height = h;
+        this._anchor.set(0.5);
         
         this._deltaFunctions = new Array();
     }

@@ -20,6 +20,8 @@ interface EntityOps{
 export class Entity{
     private readonly _engine: Engine
 
+    public id: string;
+
     private _layer: Layer;
     private _ops: EntityOps
 
@@ -28,7 +30,8 @@ export class Entity{
     public body;
     public shape;
     
-    constructor(x: number, y: number, w: number, h: number, options: EntityOps,engine: Engine, layer: Layer){
+    constructor(x: number, y: number, w: number, h: number, options: EntityOps,engine: Engine, layer: Layer, id: string){
+        this.id = id;
         this._engine = engine;
         this._layer = layer;
         this._ops = options; 
@@ -69,9 +72,6 @@ export class Entity{
         // TODO: Convert w/h to scalar 
         const shapeW = this._engine.scalarPixelsToWorld(w);
         const shapeH = this._engine.scalarPixelsToWorld(h);
-
-        console.log(x, y, w, h);
-        console.log(this._engine.coOrdPixelToWorld(x, y).x, this._engine.coOrdPixelToWorld(x, y).y, shapeW, shapeH);
 
         this.shape.SetAsBox(shapeW/2, shapeH/2);  // Halfed bcs origin in center
 

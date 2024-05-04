@@ -41,11 +41,11 @@ export class Layer{
         // Set options
         if(options) this._ops = options;        
         else this._ops = {
-            gravity: new engine.b2d.b2Vec2(0, 10),
+            gravity: new engine.b2d.b2Vec2(0, 100),
             simulation: {
                 maxTime: 1/60*1000,
-                velIterations: 10,
-                posIterations: 10
+                velIterations: 100,
+                posIterations: 100
             }
         };
 
@@ -95,15 +95,14 @@ export class Layer{
      *  makes it look choppy.
      * 
      */
-    private redrawEntities(): void{
+    private redrawEntities(){
         // Redraw entity if it has sprite
         // And its sprites location is diff
         for(const entity of this.entities){      
             let entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
 
-            //console.log(entityPos);
-            //console.log(entity.shape);
+            console.log(entityPos.x, entityPos.y);
 
             // Dont change if position is the same
             if(
@@ -112,7 +111,12 @@ export class Layer{
             ) continue;
             
             entity.sprite.position.set(entityPos.x, entityPos.y);
-            entity.sprite.angle = -entity.body.GetAngle();
+            entity.sprite.rotation = 0;
+            entity.sprite.rotation = entity.body.GetAngle();
         }
+    }
+
+    private degreeToRadian(degree){
+        return degree * (180 / Math.PI);
     }
 }

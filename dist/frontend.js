@@ -27,6 +27,7 @@ class PhysicsTest{
 
         // Create Physics Engine
         const appDimensions = this.app.getWidthHeight();
+        console.log(appDimensions);
         const engine = new Bang.Physics.Engine(appDimensions.w, appDimensions.h);
         await engine.init();
         this.app.engine = engine;
@@ -43,20 +44,18 @@ class PhysicsTest{
         }
 
         const groundSprite = new Bang.Sprites.StaticSprite(
-            150, 300, 
+            250, 250, 
             Bang.Assets.get("missing"), 
-            250, 20
+            100, 20
         );
         const groundEntity = new Bang.Physics.Entity(
-            150, 300, 
+            250, 250, 
             groundSprite.width, groundSprite.height, 
-            groundOps, this.app.engine, this.app._physicsLayers[0]
+            groundOps, this.app.engine, this.app._physicsLayers[0], "ground"
         );
         groundEntity.sprite = groundSprite
 
         this.app.addChild(groundSprite)
-
-        console.log(groundSprite);
 
         document.addEventListener('click', this.placeBox.bind(this));
     }
@@ -69,6 +68,9 @@ class PhysicsTest{
         const appBounds = this.app.getWidthHeight();
         if(!x <= appBounds.x && !y <= appBounds.y) return
 
+        console.log(x, y)
+        console.log(this.app.engine.coOrdPixelToWorld(x, y));
+
         // Create Box
         const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 50, 50);
 
@@ -78,14 +80,14 @@ class PhysicsTest{
             shape: "box",
             gravScale: 1,
             density: 1,
-            friction: 0.3,
-            restitutiuon: 0.5
+            friction: 1,
+            restitutiuon: 0
         }
 
         const entity = new Bang.Physics.Entity(
             x, y, 
             box.width, box.height, 
-            entityOps, this.app.engine, this.app._physicsLayers[0]
+            entityOps, this.app.engine, this.app._physicsLayers[0], "box"
         );
 
         // Add Box to physics Entity
