@@ -173,7 +173,8 @@ export class App extends Application{
         if(!this._physicsLayers) return;
 
         this.ticker.add(() => {
-            layer.step(this.ticker.deltaMS)
+            layer.step(this.ticker.deltaMS*1000 )
+            layer.redrawEntities()
         }, this);
 
         this._physicsLayers.push(layer);

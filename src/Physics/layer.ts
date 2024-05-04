@@ -41,11 +41,11 @@ export class Layer{
         // Set options
         if(options) this._ops = options;        
         else this._ops = {
-            gravity: new engine.b2d.b2Vec2(0, 100),
+            gravity: new engine.b2d.b2Vec2(0, 1000),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 100,
-                posIterations: 100
+                posIterations: 8
             }
         };
 
@@ -83,7 +83,6 @@ export class Layer{
         const ops = this._ops.simulation
         const clamped = Math.min(ms, ops.maxTime);
         this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
-        this.redrawEntities();
     }
 
     /** Redraw entities if their Physics position if
@@ -95,14 +94,12 @@ export class Layer{
      *  makes it look choppy.
      * 
      */
-    private redrawEntities(){
+    public redrawEntities(){
         // Redraw entity if it has sprite
         // And its sprites location is diff
         for(const entity of this.entities){      
             let entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
-
-            console.log(entityPos.x, entityPos.y);
 
             // Dont change if position is the same
             if(
@@ -114,9 +111,5 @@ export class Layer{
             entity.sprite.rotation = 0;
             entity.sprite.rotation = entity.body.GetAngle();
         }
-    }
-
-    private degreeToRadian(degree){
-        return degree * (180 / Math.PI);
     }
 }

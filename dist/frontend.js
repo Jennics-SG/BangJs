@@ -78,9 +78,8 @@ class PhysicsTest{
         const entityOps = {
             bodyType: "Dynamic",
             shape: "box",
-            gravScale: 1,
-            density: 1,
-            friction: 1,
+            density: 10,
+            friction: 0,
             restitutiuon: 0
         }
 

@@ -39,7 +39,7 @@ export class Engine{
 
     private _scale: number;  // Scale of pixel to meter
 
-    constructor(w: number, h: number, scale: number = 5){
+    constructor(w: number, h: number, scale: number = 1){
         this._w = w;
         this._h = h;
         this._scale = scale;

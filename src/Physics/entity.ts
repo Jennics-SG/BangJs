@@ -11,8 +11,8 @@ import { StaticSprite } from "../Sprites/staticSpite";
 interface EntityOps{
     bodyType: string,   // b2BodyType   Static||Kinematic||Dynamic
     shape: string,      // b2Shape      Box
-    gravScale: number,  // Scale of gravity on Entity
     density: number,    // Density of Entity
+    gravScale?: number,  // Scale of gravity on Entity
     friction?: number,   // Friction of Entity
     restitution?: number // Restitution of Entity
 }
@@ -58,6 +58,7 @@ export class Entity{
         }
 
         bd.set_position(this._engine.coOrdPixelToWorld(x, y));
+        bd.linearDamping = 0;
 
         // 2: Create Body 
         this.body = this._layer.world.CreateBody(bd);
