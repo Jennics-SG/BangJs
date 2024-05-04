@@ -8,52 +8,73 @@ import { Engine } from "./engine";
 import { Layer } from "./layer";
 import { StaticSprite } from "../Sprites/staticSpite";
 
+interface EntityOps{
+    bodyType: string,   // b2BodyType   Static||Kinematic||Dynamic
+    shape: string,      // b2Shape      Box
+    gravScale: number,  // Scale of gravity on Entity
+    density: number,    // Density of Entity
+    friction: number,   // Friction of Entity
+    restitution: number // Restitution of Entity
+}
+
 export class Entity{
     private readonly _engine: Engine
 
     private _layer: Layer;
+    private _ops: EntityOps
 
     public Sprite: typeof StaticSprite;
 
     public body;
     
-    constructor(engine: Engine, layer: Layer, x: number, y: number, w: number, h: number){
+    constructor(x: number, y: number, w: number, h: number, options: EntityOps,engine: Engine, layer: Layer){
         this._engine = engine;
         this._layer = layer;
+        this._ops = options; 
 
         // 1: Craete a Body Def
         const bd = new this._engine.b2d.b2BodyDef();
         // This needs to be up to the user
-        bd.set_type(this._engine.b2d.b2_dynamicBody);
+        switch(this._ops.bodyType){
+            case "Static" || "static":          // Static Body
+                bd.set_type(this._engine.b2d.b2_staticBody);
+                break;
+            case "Dynamic" || "dynamic":        // Dynamic Body
+                bd.set_type(this._engine.b2d.b2_dynamicBody);
+                break;
+            case "Kinematic" || "kinematic":    // Kinematic Body
+                bd.set_type(this._engine.b2d.b2_kinematicBody);
+                break;
+            default:                            // Default Static Body
+                console.error(                  // Error so user knows its defaulted
+                    `ERR: Uknown Body Type of ${this._ops.bodyType}\nDefaulting to Static\nBangJs.Physics.Entity.constructor`
+                );
+                bd.set_type(this._engine.b2d.b2_staticBody);
+                break;
+        }
+        bd.gravityScale = 1;
 
-        const worldXY = this._engine.coOrdPixelToWorld(x, y);
-
-        bd.set_position(worldXY);
+        bd.set_position(this._engine.coOrdPixelToWorld(x, y));
 
         // 2: Create Body 
-        // ofc this is done by world and not the engine
-        // like why would it be done by the engine 
         this.body = this._layer.world.CreateBody(bd);
         this.body.SetAwake(true);
         this.body.SetActive(true);
         
         // 3: Create Shape
-
-        // Need to half w/h bcs origin is in the center
-        const len = this._engine.scalarPixelsToWorld(w/2);
-        const height = this._engine.scalarPixelsToWorld(h/2);
         const shape = new this._engine.b2d.b2PolygonShape();
-        // This needs to be set by the user
-        shape.SetAsBox(len, height);
+
+        // TODO: Support more shapes than just box
+        shape.SetAsBox(w/2, h/2);  // Halfed bcs origin in center
 
         // 4: Create fixture def 
         const fd = new this._engine.b2d.b2FixtureDef();
         fd.shape = shape;
 
         // User sshould be able to set these
-        fd.density = 1;
-        fd.friction = 0.3;
-        fd.restitution = 0.5;
+        fd.density = this._ops.density;
+        fd.friction = this._ops.friction;
+        fd.restitution = this._ops.restitution;
 
         // Create fixture
         this.body.CreateFixture(fd);

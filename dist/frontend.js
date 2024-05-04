@@ -2,6 +2,7 @@ import * as Bang from './bang'
 
 class PhysicsTest{
     constructor(){
+        // Create application with arguments
         this.app = new Bang.Application({
             height: 500,
             width: 500,
@@ -17,6 +18,7 @@ class PhysicsTest{
     }
 
     async init(){
+        // Initialise application
         await this.app._init();
 
         // load missing
@@ -44,8 +46,22 @@ class PhysicsTest{
         const appBounds = this.app.getWidthHeight();
         if(!x <= appBounds.x && !y <= appBounds.y) return
 
+        // Create Box
         const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 50, 50);
-        const entity = new Bang.Physics.Entity(this.app.engine, this.app._physicsLayers[0], x, y, box.width, box.height);
+
+        // Create Physics Entity
+        const entityOps = {
+            bodyType: "Dynamic",
+            shape: "box",
+            gravScale: 0,
+            density: 5,
+            friction: 1,
+            restitutiuon: 1
+        }
+
+        const entity = new Bang.Physics.Entity(x, y, box.width, box.height, entityOps, this.app.engine, this.app._physicsLayers[0]);
+
+        // Add Box to physics Entity
         entity.sprite = box;
 
         this.app.addChild(box);

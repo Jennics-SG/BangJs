@@ -24,6 +24,12 @@ export class Layer{
 
     public world;     // Box2D world but cant set type
 
+    /** Create new Physics Layer
+     * 
+     * @param engine    Physics Engine
+     * @param options   Layer Options object
+     * @returns error if no engine 
+     */
     constructor(engine: Engine, options?: PhysOps){
         if(!engine.b2d){
             console.error(`Physics engine has not been initialised\nPlease run 'await Engine.init()'\nBang.Physics.layer.ts`)
@@ -38,8 +44,8 @@ export class Layer{
             gravity: new engine.b2d.b2Vec2(0, 10),
             simulation: {
                 maxTime: 1/60*1000,
-                velIterations: 1,
-                posIterations: 1
+                velIterations: 2,
+                posIterations: 2
             }
         };
 
@@ -53,7 +59,7 @@ export class Layer{
      * @param e     Entity
      * @returns     
      */
-    findEntity(e: Entity): Point{
+    public findEntity(e: Entity): Point{
         const trans = e.getPos();
         return this._engine.coOrdWorldToPixel(trans.x, trans.y);
     }
@@ -62,7 +68,7 @@ export class Layer{
      * 
      * @param e Entity
      */
-    addEntity(e: Entity): void{
+    public addEntity(e: Entity): void{
         this.entities.push(e);
     }
 
@@ -73,7 +79,7 @@ export class Layer{
      * 
      * @param ms 
     */
-    step(ms: number){
+    public step(ms: number){
         const ops = this._ops.simulation
         const clamped = Math.min(ms, ops.maxTime);
         this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
@@ -91,12 +97,14 @@ export class Layer{
      *  makes it look choppy.
      * 
      */
-    redrawEntities(): void{
+    private redrawEntities(): void{
         // Redraw entity if it has sprite
         // And its sprites location is diff
         for(const entity of this.entities){      
             let entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
+
+            // Dont change if position is the same
             if(
                 spritePos.x == entityPos.x &&
                 spritePos.y == entityPos.y 

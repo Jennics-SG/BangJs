@@ -6,6 +6,7 @@
  */
 
 import B2D from '../B2D/Box2D_v2.3.1_min';
+import { Entity } from './entity';
 import { Point } from 'pixi.js';
 
 /** Get Box2D instance */

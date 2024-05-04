@@ -4,7 +4,7 @@
  *  Date:   27/04/24
  */
 
-import {Application, TickerCallback} from 'pixi.js'
+import {Application, TickerCallback, Point} from 'pixi.js'
 import { Layer } from './Physics/layer';
 import { Engine } from './Physics/engine'
 import { FPSDisplay } from './utils';
