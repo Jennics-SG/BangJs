@@ -38,17 +38,25 @@ class PhysicsTest{
         const groundOps =  {
             bodyType: "Static",
             shape: "box",
-            gravScale: 0,
+            gravScale: 10,
             density: 0,
-            friction: 0,
-            restitutiuon: 0
         }
 
-        const groundSprite = new Bang.Sprites.StaticSprite(150, 300, Bang.Assets.get("missing"), 250, 10);
-        const groundEntity = new Bang.Physics.Entity(150, 300, groundSprite.width, groundSprite.height, groundOps, this.app.engine, this.app._physicsLayers[0]);
+        const groundSprite = new Bang.Sprites.StaticSprite(
+            150, 300, 
+            Bang.Assets.get("missing"), 
+            250, 20
+        );
+        const groundEntity = new Bang.Physics.Entity(
+            150, 300, 
+            groundSprite.width, groundSprite.height, 
+            groundOps, this.app.engine, this.app._physicsLayers[0]
+        );
         groundEntity.sprite = groundSprite
 
         this.app.addChild(groundSprite)
+
+        console.log(groundSprite);
 
         document.addEventListener('click', this.placeBox.bind(this));
     }
@@ -68,13 +76,17 @@ class PhysicsTest{
         const entityOps = {
             bodyType: "Dynamic",
             shape: "box",
-            gravScale: 100,
+            gravScale: 1,
             density: 1,
             friction: 0.3,
             restitutiuon: 0.5
         }
 
-        const entity = new Bang.Physics.Entity(x, y, box.width, box.height, entityOps, this.app.engine, this.app._physicsLayers[0]);
+        const entity = new Bang.Physics.Entity(
+            x, y, 
+            box.width, box.height, 
+            entityOps, this.app.engine, this.app._physicsLayers[0]
+        );
 
         // Add Box to physics Entity
         entity.sprite = box;

@@ -41,7 +41,7 @@ export class Layer{
         // Set options
         if(options) this._ops = options;        
         else this._ops = {
-            gravity: new engine.b2d.b2Vec2(0, 0),
+            gravity: new engine.b2d.b2Vec2(0, 10),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 10,

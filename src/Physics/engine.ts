@@ -28,7 +28,7 @@ export async function getB2D(){
  *  Im a bit confused how this is all gonna work
  */
 export class Engine{
-    public static yFlipIndicator: number = -1;
+    public static yFlip: number = -1;
     public b2d;             // Box 2D Instance
 
     private _w: number;     // Width of application
@@ -36,11 +36,10 @@ export class Engine{
     
     private _transX: number; // Translation X for World to pixels
     private _transY: number; // Translation Y for World to pixels
-    private _yFlip: number;  // Does y need to be flipped?
 
     private _scale: number;  // Scale of pixel to meter
 
-    constructor(w: number, h: number, scale: number = 1){
+    constructor(w: number, h: number, scale: number = 5){
         this._w = w;
         this._h = h;
         console.log(scale);
@@ -48,7 +47,6 @@ export class Engine{
         
         this._transX = w / 2;
         this._transY = h / 2;
-        this._yFlip = Engine.yFlipIndicator;
     }
 
     // Get b2d instance
@@ -64,9 +62,9 @@ export class Engine{
      */
     public coOrdPixelToWorld(x: number, y: number){
         let worldX: number = 
-            this.mapNumRange(x + this._w / 2, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
+            this.mapNumRange(x, 0, this._w, 0-this._transX*this._scale, 0+this._transX*this._scale);
         let worldY: number = 
-            this.mapNumRange(y + this._h / 2, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
+            this.mapNumRange(y, 0, this._h, 0-this._transY*this._scale, 0+this._transY*this._scale);
 
         const v = new this.b2d.b2Vec2(worldX, worldY);
         return v;
@@ -80,15 +78,15 @@ export class Engine{
      */
     public coOrdWorldToPixel(x: number, y: number): Point{
         let pixelX = this.mapNumRange(
-            x - (this.scalarPixelsToWorld(this._w) / 2),
-            0-this._transX*this._scale,
-            0+this._transX*this._scale,
+            x,
+            0-(this._transX*this._scale),
+            0+(this._transX*this._scale),
             0, this._w
         );
         let pixelY = this.mapNumRange(
-            y - (this.scalarPixelsToWorld(this._h) / 2),
-            0-this._transY*this._scale,
-            0+this._transY*this._scale,
+            y,
+            0-(this._transY*this._scale),
+            0+(this._transY*this._scale),
             0, this._w
         );
         return new Point(pixelX, pixelY);

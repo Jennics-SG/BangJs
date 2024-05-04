@@ -13,8 +13,8 @@ interface EntityOps{
     shape: string,      // b2Shape      Box
     gravScale: number,  // Scale of gravity on Entity
     density: number,    // Density of Entity
-    friction: number,   // Friction of Entity
-    restitution: number // Restitution of Entity
+    friction?: number,   // Friction of Entity
+    restitution?: number // Restitution of Entity
 }
 
 export class Entity{
@@ -38,30 +38,29 @@ export class Entity{
         // This needs to be up to the user
         switch(this._ops.bodyType){
             case "Static" || "static":          // Static Body
-                bd.set_type(this._engine.b2d.b2_staticBody);
+                //bd.type = this._engine.b2d.b2_staticBody
                 break;
             case "Dynamic" || "dynamic":        // Dynamic Body
-                bd.set_type(this._engine.b2d.b2_dynamicBody);
+                bd.type = this._engine.b2d.b2_dynamicBody;
                 break;
             case "Kinematic" || "kinematic":    // Kinematic Body
-                bd.set_type(this._engine.b2d.b2_kinematicBody);
+                bd.type = this._engine.b2d.b2_kinematicBody;
                 break;
             default:                            // Default Static Body
                 console.error(                  // Error so user knows its defaulted
                     `ERR: Uknown Body Type of ${this._ops.bodyType}\nDefaulting to Static\nBangJs.Physics.Entity.constructor`
                 );
-                bd.set_type(this._engine.b2d.b2_staticBody);
+                //bd.set_type(this._engine.b2d.b2_staticBody);
                 break;
         }
-        bd.gravityScale = 1;
 
         bd.set_position(this._engine.coOrdPixelToWorld(x, y));
 
         // 2: Create Body 
         this.body = this._layer.world.CreateBody(bd);
-        const dynamicBody = this._ops.bodyType == "Dynamic" || this._ops.bodyType == "dynamic"
-        this.body.SetAwake(dynamicBody);
-        this.body.SetActive(dynamicBody);
+        this.body.SetAwake(true);
+        this.body.SetActive(true);
+        this.body.isSensor = false;
         
         // 3: Create Shape
         this.shape = new this._engine.b2d.b2PolygonShape();
@@ -71,6 +70,9 @@ export class Entity{
         const shapeW = this._engine.scalarPixelsToWorld(w);
         const shapeH = this._engine.scalarPixelsToWorld(h);
 
+        console.log(x, y, w, h);
+        console.log(this._engine.coOrdPixelToWorld(x, y).x, this._engine.coOrdPixelToWorld(x, y).y, shapeW, shapeH);
+
         this.shape.SetAsBox(shapeW/2, shapeH/2);  // Halfed bcs origin in center
 
         // 4: Create fixture def 
@@ -79,8 +81,8 @@ export class Entity{
 
         // User sshould be able to set these
         fd.density = this._ops.density;
-        fd.friction = this._ops.friction;
-        fd.restitution = this._ops.restitution;
+        fd.friction = this._ops.friction? this._ops.friction : null;
+        fd.restitution = this._ops.restitution? this._ops.restitution : null;
 
         // Create fixture
         this.body.CreateFixture(fd);
