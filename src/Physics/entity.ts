@@ -26,6 +26,7 @@ export class Entity{
     public Sprite: typeof StaticSprite;
 
     public body;
+    public shape;
     
     constructor(x: number, y: number, w: number, h: number, options: EntityOps,engine: Engine, layer: Layer){
         this._engine = engine;
@@ -58,18 +59,23 @@ export class Entity{
 
         // 2: Create Body 
         this.body = this._layer.world.CreateBody(bd);
-        this.body.SetAwake(true);
-        this.body.SetActive(true);
+        const dynamicBody = this._ops.bodyType == "Dynamic" || this._ops.bodyType == "dynamic"
+        this.body.SetAwake(dynamicBody);
+        this.body.SetActive(dynamicBody);
         
         // 3: Create Shape
-        const shape = new this._engine.b2d.b2PolygonShape();
+        this.shape = new this._engine.b2d.b2PolygonShape();
 
         // TODO: Support more shapes than just box
-        shape.SetAsBox(w/2, h/2);  // Halfed bcs origin in center
+        // TODO: Convert w/h to scalar 
+        const shapeW = this._engine.scalarPixelsToWorld(w);
+        const shapeH = this._engine.scalarPixelsToWorld(h);
+
+        this.shape.SetAsBox(shapeW/2, shapeH/2);  // Halfed bcs origin in center
 
         // 4: Create fixture def 
         const fd = new this._engine.b2d.b2FixtureDef();
-        fd.shape = shape;
+        fd.shape = this.shape;
 
         // User sshould be able to set these
         fd.density = this._ops.density;

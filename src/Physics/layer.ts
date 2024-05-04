@@ -41,11 +41,11 @@ export class Layer{
         // Set options
         if(options) this._ops = options;        
         else this._ops = {
-            gravity: new engine.b2d.b2Vec2(0, 10),
+            gravity: new engine.b2d.b2Vec2(0, 0),
             simulation: {
                 maxTime: 1/60*1000,
-                velIterations: 2,
-                posIterations: 2
+                velIterations: 10,
+                posIterations: 10
             }
         };
 
@@ -83,8 +83,6 @@ export class Layer{
         const ops = this._ops.simulation
         const clamped = Math.min(ms, ops.maxTime);
         this.world.Step(clamped/1000, ops.velIterations, ops.posIterations);
-        this.world.ClearForces();
-
         this.redrawEntities();
     }
 
@@ -103,6 +101,9 @@ export class Layer{
         for(const entity of this.entities){      
             let entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
+
+            //console.log(entityPos);
+            //console.log(entity.shape);
 
             // Dont change if position is the same
             if(
