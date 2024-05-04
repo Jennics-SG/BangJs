@@ -90,7 +90,7 @@ export class Engine{
      * @returns     Number
      */
     public scalarPixelsToWorld(n: number): number{
-        return n / this._scale
+        return n * this._scale
     }
 
     /** Convert World measurement to Pixel
@@ -99,7 +99,7 @@ export class Engine{
      * @returns     Number
      */
     public scalarWorldToPixels(n: number): number{
-        return n * this._scale;
+        return n / this._scale;
     }
 
     /** Map number from one range to another   
