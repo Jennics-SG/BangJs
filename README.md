@@ -5,17 +5,25 @@
  
  Please check back here for more updates.
 
-## Installation
- To initialise the project please run
- ```asgl
- npm init
+# Project Structure 
+```asgl
+|-Builder
+|   |- Build Scripts for engine and test environmen
+|
+|-Demos
+|   |- Demos for the engine. CD into any of the subfolders
+|           and run 'http-server' to see them in actions
+|
+|-Dist
+|   |- Current Test Environment script
+|
+|-src
+|   |- Engine Source Code
+|
+|-Test
+|   |- Current Test environment after building
+
 ```
 
- After this you will need to build the test environment using
- ```asgl
- npm run build-engine
-```
- After this you will find that the bundled engine should be under `dist/bang.js`
-
-## Running
- Now you can run the project, go into the test folder using `cd test` and run `http-server`
+# Documentation
+Coming soon
