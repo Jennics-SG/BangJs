@@ -79,7 +79,8 @@ import { getB2D } from './Physics/engine';
  *  This just exists as its a pain to convert PIXI Points to
  *  b2Vec2's, so by creating this class the b2Vec can be
  *  returned by a method
- * 
+ *  
+ *  Author: Jimy Houlbrook
  */
 export class Vector extends PIXI.Point{
     private _b2d

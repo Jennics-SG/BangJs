@@ -53,7 +53,7 @@ class PhysicsTest{
             groundSprite.width, groundSprite.height, 
             groundOps, this.app.engine, this.app._physicsLayers[0], "ground"
         );
-        groundEntity.sprite = groundSprite
+        groundSprite.setPhysicsEntity(groundEntity);
 
         this.app.addChild(groundSprite)
 
@@ -67,9 +67,6 @@ class PhysicsTest{
         // Is in bounds
         const appBounds = this.app.getWidthHeight();
         if(!x <= appBounds.x && !y <= appBounds.y) return
-
-        console.log(x, y)
-        console.log(this.app.engine.coOrdPixelToWorld(x, y));
 
         // Create Box
         const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 25, 25);
@@ -89,8 +86,8 @@ class PhysicsTest{
             entityOps, this.app.engine, this.app._physicsLayers[0], "box"
         );
 
-        // Add Box to physics Entity
-        entity.sprite = box;
+        // Attach Entity & Sprite
+        box.setPhysicsEntity(entity);
 
         this.app.addChild(box);
     }

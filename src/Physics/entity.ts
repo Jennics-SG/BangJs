@@ -8,7 +8,7 @@ import { Engine } from "./engine";
 import { Layer } from "./layer";
 import { StaticSprite } from "../Sprites/staticSpite";
 
-interface EntityOps{
+export interface EntityOps{
     bodyType: string,   // b2BodyType   Static||Kinematic||Dynamic
     shape: string,      // b2Shape      Box
     density: number,    // Density of Entity
@@ -25,11 +25,27 @@ export class Entity{
     private _layer: Layer;
     private _ops: EntityOps
 
-    public Sprite: typeof StaticSprite;
+    public sprite: StaticSprite;
 
     public body;
     public shape;
     
+    /** Physics Entity that gets tracked by Layer
+     * 
+     *  The physics entity gets created by the layer
+     *  which tracks all the physics. To graphically represent
+     *  an entity you need to set Physics in Application
+     *  and add a sprite to the entity
+     * 
+     * @param x         Pixel X position of entity
+     * @param y         Pixel Y position of entity
+     * @param w         Pixel Width of entity
+     * @param h         Pixel Height of entity
+     * @param options   Entity options (see EntityOps)
+     * @param engine    Physics Engine
+     * @param layer     Physics Layer
+     * @param id        ID of entity (Only here for testing, needs to be removed)
+     */
     constructor(x: number, y: number, w: number, h: number, options: EntityOps,engine: Engine, layer: Layer, id: string){
         this.id = id;
         this._engine = engine;
@@ -58,7 +74,6 @@ export class Entity{
         }
 
         bd.set_position(this._engine.coOrdPixelToWorld(x, y));
-        bd.linearDamping = 0;
 
         // 2: Create Body 
         this.body = this._layer.world.CreateBody(bd);
@@ -91,6 +106,7 @@ export class Entity{
         layer.addEntity(this);
     }
 
+    /** Get World Position of Entity */
     public getPos(){
         return this.body.GetPosition();
     }

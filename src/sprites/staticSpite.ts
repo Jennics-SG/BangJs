@@ -5,9 +5,12 @@
  */
 
 import { Sprite, Texture } from "pixi.js";
+import { Entity } from "../Physics/entity";
 
 export class StaticSprite extends Sprite{ 
     private _deltaFunctions: Array<CallableFunction>
+
+    protected _physicsEntity?: Entity
     
     /** Static Sprite, doesnt move or change
      * 
@@ -55,5 +58,17 @@ export class StaticSprite extends Sprite{
         for (const fn of this._deltaFunctions) {
             fn()
         }
+    }
+
+    /** Set Physics Entity
+     * 
+     *  Sets the Physics Entity of sprite
+     *  and sprite of Physics Entity
+     * 
+     * @param e Physics entity
+     */
+    public setPhysicsEntity(e: Entity){
+        this._physicsEntity = e;
+        e.sprite = this;
     }
 }

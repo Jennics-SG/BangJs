@@ -50,13 +50,6 @@ export class Layer{
             }
         };
 
-        // No matter what we multiply gravity by scale
-        // B2D comes with support to do *= but ts doesnt 
-        // because its a JS package
-      
-        // multiply X and Y incase 
-
-
         // Array for entities
         this.entities = new Array();
         this.world = new this._engine.b2d.b2World(this._ops.gravity)

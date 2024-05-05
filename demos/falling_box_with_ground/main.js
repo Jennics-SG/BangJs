@@ -69682,7 +69682,7 @@ ${e2}`);
           // Translation Y for World to pixels
           _scale;
           // Scale of pixel to meter
-          constructor(w2, h2, scale = 1) {
+          constructor(w2, h2, scale = 2) {
             this._w = w2;
             this._h = h2;
             this._scale = scale;
@@ -69756,6 +69756,11 @@ ${e2}`);
           mapNumRange(n2, inMin, inMax, outMin, outMax) {
             return outMin + (outMax - outMin) * ((n2 - inMin) / (inMax - inMin));
           }
+          // STATIC METHODS ---------------------------------------------------------
+          // Create a force vector that works with engine
+          CreateForceVector(x2 = 0, y2 = 0) {
+            return new this.b2d.b2Vec2(x2 * this._scale, y2 * this._scale);
+          }
         };
       }
     });
@@ -69765,6 +69770,7 @@ ${e2}`);
         init_lib();
         StaticSprite = class extends Sprite {
           _deltaFunctions;
+          _physicsEntity;
           /** Static Sprite, doesnt move or change
            * 
            * @param x         X position of Sprite
@@ -69806,6 +69812,17 @@ ${e2}`);
               fn();
             }
           }
+          /** Set Physics Entity
+           * 
+           *  Sets the Physics Entity of sprite
+           *  and sprite of Physics Entity
+           * 
+           * @param e Physics entity
+           */
+          setPhysicsEntity(e2) {
+            this._physicsEntity = e2;
+            e2.sprite = this;
+          }
         };
       }
     });
@@ -69818,6 +69835,12 @@ ${e2}`);
           _dragPoint;
           _dragging;
           /** Dragable Sprite
+           * 
+           *  This sprite does NOT work with physics entities
+           *  as the sprite position is set with dragging. To
+           *  have a draggable entity please look at
+           *  BangJs.Physics.DragableEntity
+           *  
            * 
            * @param x         X Position
            * @param y         Y Position
@@ -69956,7 +69979,8 @@ Bang.Physics.layer.ts`);
               this._ops = options;
             else
               this._ops = {
-                gravity: new engine.b2d.b2Vec2(0, 1e3),
+                // TODO: Change to force vec
+                gravity: this._engine.CreateForceVector(0, 100),
                 simulation: {
                   maxTime: 1 / 60 * 1e3,
                   velIterations: 100,
@@ -70025,9 +70049,25 @@ Bang.Physics.layer.ts`);
           id;
           _layer;
           _ops;
-          Sprite;
+          sprite;
           body;
           shape;
+          /** Physics Entity that gets tracked by Layer
+           * 
+           *  The physics entity gets created by the layer
+           *  which tracks all the physics. To graphically represent
+           *  an entity you need to set Physics in Application
+           *  and add a sprite to the entity
+           * 
+           * @param x         Pixel X position of entity
+           * @param y         Pixel Y position of entity
+           * @param w         Pixel Width of entity
+           * @param h         Pixel Height of entity
+           * @param options   Entity options (see EntityOps)
+           * @param engine    Physics Engine
+           * @param layer     Physics Layer
+           * @param id        ID of entity (Only here for testing, needs to be removed)
+           */
           constructor(x2, y2, w2, h2, options, engine, layer, id) {
             this.id = id;
             this._engine = engine;
@@ -70053,7 +70093,6 @@ BangJs.Physics.Entity.constructor`
                 break;
             }
             bd.set_position(this._engine.coOrdPixelToWorld(x2, y2));
-            bd.linearDamping = 0;
             this.body = this._layer.world.CreateBody(bd);
             this.body.SetAwake(true);
             this.body.SetActive(true);
@@ -70070,6 +70109,7 @@ BangJs.Physics.Entity.constructor`
             this.body.CreateFixture(fd);
             layer.addEntity(this);
           }
+          /** Get World Position of Entity */
           getPos() {
             return this.body.GetPosition();
           }
@@ -70357,7 +70397,7 @@ var PhysicsTest = class {
       this.app._physicsLayers[0],
       "ground"
     );
-    groundEntity.sprite = groundSprite;
+    groundSprite.setPhysicsEntity(groundEntity);
     this.app.addChild(groundSprite);
     document.addEventListener("click", this.placeBox.bind(this));
   }
@@ -70367,15 +70407,13 @@ var PhysicsTest = class {
     const appBounds = this.app.getWidthHeight();
     if (!x <= appBounds.x && !y <= appBounds.y)
       return;
-    console.log(x, y);
-    console.log(this.app.engine.coOrdPixelToWorld(x, y));
-    const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get("missing"), 50, 50);
+    const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get("missing"), 25, 25);
     const entityOps = {
-      bodyType: "Kinematic",
+      bodyType: "Dynamic",
       shape: "box",
       density: 10,
       friction: 0,
-      restitutiuon: 0
+      restitutiuon: 1
     };
     const entity = new Bang.Physics.Entity(
       x,
@@ -70387,7 +70425,7 @@ var PhysicsTest = class {
       this.app._physicsLayers[0],
       "box"
     );
-    entity.sprite = box;
+    box.setPhysicsEntity(entity);
     this.app.addChild(box);
   }
 };
