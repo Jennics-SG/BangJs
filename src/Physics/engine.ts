@@ -129,9 +129,7 @@ export class Engine{
     ): number{
         return outMin + (outMax - outMin)*((n - inMin)/(inMax - inMin))
     }
-
-    // STATIC METHODS ---------------------------------------------------------
-
+    
     // Create a force vector that works with engine
     public CreateForceVector(x: number = 0, y: number = 0){
         return new this.b2d.b2Vec2(x*this._scale, y*this._scale);

@@ -65,7 +65,7 @@ export class App extends Application{
     // store the engine
     public engine?: Engine;
 
-    private readonly _ver: string = "0.0.2";
+    private readonly _ver: string = "0.0.3";
 
     constructor(args: ApplicationArgs){  
         super();
