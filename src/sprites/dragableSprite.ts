@@ -14,6 +14,9 @@ export class DragableSprite extends StaticSprite{
 
     /** Dragable Sprite
      * 
+     *  This does NOT work with physics enabled
+     *  It WILL break your physics
+     * 
      * @param x         X Position
      * @param y         Y Position
      * @param texture   Texture
@@ -40,10 +43,6 @@ export class DragableSprite extends StaticSprite{
 
     // Drag Start
     private dragStart(e: MouseEvent){
-        if(this._physicsEntity){
-            this.physicsDragStart(e);
-            return;
-        }
         const mousePoint = new Point(e.x, e.y);
 
         this._dragPoint = new Point(
@@ -58,11 +57,6 @@ export class DragableSprite extends StaticSprite{
 
     // Drag Move
     private dragMove(e: MouseEvent){
-        if(this._physicsEntity){
-            this.physicsDragMove(e);
-            return;
-        }
-
         if(!this._dragging) return;
 
         const mousePoint = new Point(e.x, e.y);
@@ -71,10 +65,6 @@ export class DragableSprite extends StaticSprite{
 
     // Drag End
     private dragEnd(e: MouseEvent){
-        if(this._physicsEntity){
-            this.physicsDragEnd(e);
-            return;
-        }
         if(!this._dragging) return;
 
         this._dragging = false;
@@ -88,22 +78,4 @@ export class DragableSprite extends StaticSprite{
         this.x = mousePoint.x + this._dragPoint.x;
         this.y = mousePoint.y + this._dragPoint.y;
     }
-
-    // PHYSICS DRAGGING LOGIC -------------------------------------------------------------
-
-    // Drag Start
-    private physicsDragStart(e: MouseEvent){
-        // Create distance joint & attach to entity
-    }
-
-    // Drag Move
-    private physicsDragMove(e: MouseEvent){
-        // Move distance joint to mouse pos
-    }
-
-    // Drag End
-    private physicsDragEnd(e: MouseEvent){
-        // Destroy Distance Joint
-    }
-
 }

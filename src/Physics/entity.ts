@@ -7,6 +7,7 @@
 import { Engine } from "./engine";
 import { Layer } from "./layer";
 import { StaticSprite } from "../Sprites/staticSpite";
+import { Point } from "pixi.js";
 
 export interface EntityOps{
     bodyType: string,   // b2BodyType   Static||Kinematic||Dynamic
@@ -109,5 +110,20 @@ export class Entity{
     /** Get World Position of Entity */
     public getPos(){
         return this.body.GetPosition();
+    }
+
+    /** Apply force to the body
+     * 
+     * @param f {Vector}    Force to be applied
+     */
+    public applyForce(f: Point){
+        // Convert to scalar
+        f.x = this._engine.scalarPixelsToWorld(f.x);
+        f.y = this._engine.scalarPixelsToWorld(f.y);
+
+        console.log(f);
+
+        const force = new this._engine.b2d.b2Vec2(f.x, f.y);
+        this.body.ApplyForceToCenter(force);
     }
 }
