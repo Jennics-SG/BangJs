@@ -6,15 +6,17 @@
 
 import { App } from "./application"
 import { GraphicsExtended } from "./graphics"
-import * as Sprites from "./sprites/index";
-
-import { Assets } from "pixi.js";
+import * as Sprites from "./Sprites/index";
+import * as Physics from "./Physics/index";
+import { Assets, Point } from "pixi.js";
 
 const Bang = {
     Application: App, 
     Graphics: GraphicsExtended,
-    Assets: Assets,
-    Sprites: Sprites
+    Assets,
+    Sprites,
+    Physics,
+    Vector: Point
 }
 
 module.exports = Bang;

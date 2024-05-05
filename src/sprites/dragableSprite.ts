@@ -1,5 +1,5 @@
 /** Name:   BangJs.Sprites.DragableSprite
- *  Desc:   Logic for Dragable Sprite
+ *  Desc:   Logic for Dragable Sprite.
  *  Author: Jimy Houlbrook
  *  Date:   28/04/24
  */
@@ -13,6 +13,9 @@ export class DragableSprite extends StaticSprite{
     private _dragging: Boolean;
 
     /** Dragable Sprite
+     * 
+     *  This does NOT work with physics enabled
+     *  It WILL break your physics
      * 
      * @param x         X Position
      * @param y         Y Position
@@ -36,7 +39,7 @@ export class DragableSprite extends StaticSprite{
         this.on('pointerup', this.dragEnd.bind(this));
     }
 
-    // DRAGGING LOGIC ---------------------------------------------------------
+    // NON-PHYSICS DRAGGING LOGIC ---------------------------------------------------------
 
     // Drag Start
     private dragStart(e: MouseEvent){
@@ -50,6 +53,7 @@ export class DragableSprite extends StaticSprite{
         this._dragging = true;
         this.updateDragPosition(mousePoint);
     }
+
 
     // Drag Move
     private dragMove(e: MouseEvent){

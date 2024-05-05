@@ -4,7 +4,10 @@
  *  Date:   27/04/24
  */
 
-import {Application, TickerCallback} from 'pixi.js'
+import {Application, TickerCallback, Point} from 'pixi.js'
+import { Layer } from './Physics/layer';
+import { Engine } from './Physics/engine'
+import { FPSDisplay } from './utils';
 
 /** Application Arguments
  * 
@@ -20,7 +23,7 @@ export interface ApplicationArgs{
     height: number,
     width: number,
     canvas: HTMLCanvasElement,
-    optional?: OptionalArgs
+    optional?: OptionalArgs,
 }
 
 /** Optional Application Arguments
@@ -33,8 +36,10 @@ export interface ApplicationArgs{
  */
 interface OptionalArgs{
     hello?: boolean,
+    debug?: boolean,
     background?: string,
     antialias?: boolean,
+    physics?: boolean,
     fullscreen?: FSOptions
 }
 
@@ -46,19 +51,36 @@ interface OptionalArgs{
  */
 interface FSOptions{
     enabled: boolean,
-    debug?: boolean
 }
 
 // Class representing Application
 export class App extends Application{
     private _args: ApplicationArgs;
-    
+
+    // Physics stuff
+    // Not set unless user wants physics
+    private _physicsLayers?: Array<Layer>
+
+    // Put this here incase people want to
+    // store the engine
+    public engine?: Engine;
+
+    private readonly _ver: string = "0.0.2";
+
     constructor(args: ApplicationArgs){  
         super();
         
         this._args = args;
 
-        this._init();
+        if(this._args.optional?.debug){
+            const fps = FPSDisplay.instance
+            fps.create(this);
+        }
+
+        if(this._args.optional?.physics)
+            this._physicsLayers = new Array();
+
+        //this._init();
     }
 
     // METHODS ----------------------------------------------------------------
@@ -95,7 +117,7 @@ export class App extends Application{
 
         // Warn about scroll bars if debug
         // if debug warn that css can cause scrollbars to appear
-        if(fsOps.debug){
+        if(this._args.optional?.debug){
             const warning: string = `WARNING: CSS can cause Scrollbars, ensure Body and Canvas have "overflow: hidden;" for fullscreen\nBangJs.application.ts.app.enableFullScreen`
             console.warn(warning)
         };
@@ -117,7 +139,7 @@ export class App extends Application{
         #  |  |_)  |  /  _____  \\  |  |\\   | |  |__| | |  \`--'  | .----)   |   
         #  |______/  /__/     \\__\\ |__| \\__|  \\______|  \\______/  |_______/    
         #
-        V: 0.0.11`)
+        V: ${this._ver}`);
     }
 
     /** Add Child to application stage
@@ -138,5 +160,23 @@ export class App extends Application{
     // Remove function from ticker
     public removeFromTicker(fn: TickerCallback<CallableFunction>, context: CallableFunction): void{
         this.ticker.remove(fn, context);
+    }
+
+    public getWidthHeight(): Object{
+        const w = this._args.width;
+        const h = this._args.height;
+        return {w, h}
+    }
+
+    public addPhysicsLayer(layer: Layer){
+        // add a debug message here
+        if(!this._physicsLayers) return;
+
+        this.ticker.add(() => {
+            layer.step(this.ticker.deltaMS*1000 )
+            layer.redrawEntities()
+        }, this);
+
+        this._physicsLayers.push(layer);
     }
 }
