@@ -41,13 +41,21 @@ export class Layer{
         // Set options
         if(options) this._ops = options;        
         else this._ops = {
-            gravity: new engine.b2d.b2Vec2(0, 1000),
+            // TODO: Change to force vec
+            gravity: this._engine.CreateForceVector(0, 100),
             simulation: {
                 maxTime: 1/60*1000,
                 velIterations: 100,
                 posIterations: 8
             }
         };
+
+        // No matter what we multiply gravity by scale
+        // B2D comes with support to do *= but ts doesnt 
+        // because its a JS package
+      
+        // multiply X and Y incase 
+
 
         // Array for entities
         this.entities = new Array();

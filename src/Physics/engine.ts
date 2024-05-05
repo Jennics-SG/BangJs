@@ -18,14 +18,15 @@ export async function getB2D(){
     });
 }
 
-/** Class that literally just gets instance of Box2D
+/** Class that represents a majority of engine logic
  * 
- *  I wanted to do it in a way that only needs one call to get the physics
- *  engine directly, the best way forward was to create a "static" class
- *  that is initiated with Physics to download the engine and make it
- *  accessible
+ *  Mostly deals with conversions between pixel
+ *  and world numbers, but also holds useful
+ *  attributes
  * 
- *  Im a bit confused how this is all gonna work
+ *  Make sure that only one Engine is created,
+ *  the engine is almost like the parent to
+ *  the physics system in place 
  */
 export class Engine{
     public static yFlip: number = -1;
@@ -39,9 +40,14 @@ export class Engine{
 
     private _scale: number;  // Scale of pixel to meter
 
-    constructor(w: number, h: number, scale: number = 1){
+    constructor(w: number, h: number, scale: number = 2){
         this._w = w;
         this._h = h;
+
+        // Technically B2D should take scales higher
+        // than 1, but the simulation gets really
+        // slow if we do this, until this is fixed
+        // please keep small scales
         this._scale = scale;
         
         this._transX = w / 2;
@@ -118,7 +124,16 @@ export class Engine{
      * @param outMax    Maxiumum of new range
      * @returns 
      */
-    private mapNumRange(n: number, inMin: number, inMax: number, outMin: number, outMax: number): number{
+    private mapNumRange(
+        n: number, inMin: number, inMax: number, outMin: number, outMax: number
+    ): number{
         return outMin + (outMax - outMin)*((n - inMin)/(inMax - inMin))
+    }
+
+    // STATIC METHODS ---------------------------------------------------------
+
+    // Create a force vector that works with engine
+    public CreateForceVector(x: number = 0, y: number = 0){
+        return new this.b2d.b2Vec2(x*this._scale, y*this._scale);
     }
 }

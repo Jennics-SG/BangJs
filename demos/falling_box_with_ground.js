@@ -72,7 +72,7 @@ class PhysicsTest{
         console.log(this.app.engine.coOrdPixelToWorld(x, y));
 
         // Create Box
-        const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 25, 25);
+        const box = new Bang.Sprites.StaticSprite(x, y, Bang.Assets.get('missing'), 50, 50);
 
         // Create Physics Entity
         const entityOps = {
@@ -80,7 +80,7 @@ class PhysicsTest{
             shape: "box",
             density: 10,
             friction: 0,
-            restitutiuon: 1
+            restitutiuon: 0
         }
 
         const entity = new Bang.Physics.Entity(
