@@ -108,13 +108,10 @@ class PhysicsTest{
             density: 0.1,  
         }
 
-
         const movableSprite = new Bang.Sprites.MovableSprite(
             250, 250, Bang.Assets.get("missing"),
             controls, 50, 50
         );
-
-
 
         const movableEntity = new Bang.Physics.Entity(
             movableSprite.x, movableSprite.y,
