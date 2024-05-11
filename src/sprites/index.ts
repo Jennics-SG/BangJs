@@ -5,13 +5,17 @@
  */
 
 import { StaticSprite } from "./staticSpite";
-import { DragableSprite } from "./dragableSprite";
-import { MovableSprite } from "./movableSprite";
+import { DragableSprite, AnimatedDragableSprite } from "./dragableSprite";
+import { MovableSprite, AnimatedMovableSprite } from "./movableSprite";
+import { AnimSprite } from "./AnimatedSprite";
 
 const Sprites = {
     StaticSprite,
     DragableSprite,
-    MovableSprite
+    MovableSprite,
+    AnimatedSprite: AnimSprite,
+    AnimatedDragableSprite,
+    AnimatedMovableSprite
 }
 
 module.exports = Sprites;
