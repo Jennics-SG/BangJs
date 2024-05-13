@@ -6,8 +6,7 @@
 
 import { Engine } from "./engine";
 import { Layer } from "./layer";
-import { StaticSprite } from "../Sprites/staticSpite";
-import { Point } from "pixi.js";
+import { Point, Sprite } from "pixi.js";
 
 export interface EntityOps{
     bodyType: string,   // b2BodyType   Static||Kinematic||Dynamic
@@ -26,8 +25,8 @@ export class Entity{
     private _layer: Layer;
     private _ops: EntityOps
 
-    public sprite: StaticSprite;
-
+    public sprite: Sprite;
+    public enabled: boolean;
     public body;
     public shape;
     
@@ -105,6 +104,7 @@ export class Entity{
         this.body.CreateFixture(fd);
 
         layer.addEntity(this);
+        this.enabled = true;
     }
 
     /** Get World Position of Entity */

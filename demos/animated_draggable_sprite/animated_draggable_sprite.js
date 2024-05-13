@@ -21,9 +21,6 @@ class PhysicsTest{
         // Initialise application
         await this.app._init();
 
-        // Initialise Animator
-        const animator = new Bang.Animator();
-
         // load spritesheet
         Bang.Assets.add({alias: 'animation', src: './assets/tusk_win_anim.json'});
         const sheet = await Bang.Assets.load('animation');
@@ -33,19 +30,6 @@ class PhysicsTest{
         const animSprite = new Bang.Sprites.AnimatedDragableSprite(50, 50, sheet.animations['tusk_win_anim'], 100, 100);
         animSprite.play();
         this.app.addChild(animSprite);
-
-        const tween = {
-            action: "to",
-            sprite: animSprite,
-            options:{
-                x: 200,
-                y: 200,
-                angle: 360
-            },
-            duration: 5
-        }
-
-        animator.addTween(tween);
     }
 }
 
