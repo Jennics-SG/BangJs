@@ -1,0 +1,18 @@
+{
+  "name": "bangjs",
+  "version": "0.0.3",
+  "description": "A web based 2D game engine for creating web based games",
+  "main": "index.js",
+  "scripts": {
+    "build-engine": "node ./builder/esbuild.engine.mjs",
+    "build-tester": "node ./builder/esbuild.tester.mjs",
+    "build": "node ./builder/esbuild.engine.mjs && node ./builder/esbuild.tester.mjs"
+  },
+  "author": "Jimy Houlbrook",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "0.20.2",
+    "gsap": "^3.12.5",
+    "pixi.js": "^8.1.0"
+  }
+}

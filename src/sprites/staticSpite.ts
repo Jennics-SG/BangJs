@@ -70,4 +70,13 @@ export class StaticSprite extends Sprite{
         this._physicsEntity = e;
         e.sprite = this;
     }
+
+    /** Set Physics Enabled
+     * 
+     * @param b     True / False
+     */
+    public setPhysicsEnabled(b: boolean){
+        if(!this._physicsEntity) return;
+        this._physicsEntity.enabled = b;
+    }
 }

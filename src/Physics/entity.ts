@@ -26,7 +26,7 @@ export class Entity{
     private _ops: EntityOps
 
     public sprite: Sprite;
-
+    public enabled: boolean;
     public body;
     public shape;
     
@@ -104,6 +104,7 @@ export class Entity{
         this.body.CreateFixture(fd);
 
         layer.addEntity(this);
+        this.enabled = true;
     }
 
     /** Get World Position of Entity */

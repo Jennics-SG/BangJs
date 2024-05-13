@@ -96,10 +96,11 @@ export class Layer{
      * 
      */
     public redrawEntities(){
-        // Redraw entity if it has sprite
-        // And its sprites location is diff
-        for(const entity of this.entities){      
-            let entityPos = this.findEntity(entity);
+        for(const entity of this.entities){
+            // Exit if theres no sprite
+            if(!entity.sprite) continue;
+
+            const entityPos = this.findEntity(entity);
             const spritePos = entity.sprite.position;
 
             // Dont change if position is the same
@@ -108,9 +109,16 @@ export class Layer{
                 spritePos.y == entityPos.y 
             ) continue;
             
-            entity.sprite.position.set(entityPos.x, entityPos.y);
-            entity.sprite.rotation = 0;
-            entity.sprite.rotation = entity.body.GetAngle();
+
+            // Redraw sprite to physics if physics enabled     
+            if(entity.enabled){
+                entity.sprite.position.set(entityPos.x, entityPos.y);
+                entity.sprite.rotation = entity.body.GetAngle();
+            } else {
+                // Move physiocs to sprite if disabled
+                const newEntityPos = new this._engine.b2d.getB2Vec2(spritePos.x, spritePos.y);
+                entity.body.SetTransform(newEntityPos, entity.sprite.rotation);
+            }
         }
     }
 }
